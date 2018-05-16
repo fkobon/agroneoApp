@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_menu_map"
+            android:title="@string/gaia" />
+        <item
+            android:id="@+id/nav_discuss"
+            android:icon="@drawable/ic_menu_forum"
+            android:title="@string/discuss" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_menu_profile"
+            android:title="@string/profile" />
+    </group>
+
+    <item android:title="@string/documents">
+        <menu>
+            <item
+                android:id="@+id/nav_documents"
+                android:icon="@drawable/ic_menu_docs"
+                android:title="@string/documents" />
+        </menu>
+    </item>
+
+</menu>

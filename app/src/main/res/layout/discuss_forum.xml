@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:alignItems="flex_start"
+    android:theme="@style/discussForum">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:foreground="@drawable/logo"
+        app:layout_alignSelf="center"
+        app:layout_minWidth="70dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_flexBasisPercent="100%">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/breadcrumb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="bread › crumb › catégorie" />
+
+        <TextView
+            android:id="@+id/infos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="posté il y a 1 jour  et  2 heures, 1 réponse, dernière réponse il y a 1 jour  et  1 heure"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        app:layout_alignSelf="center"
+        app:layout_minWidth="50dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:foreground="@drawable/logo" />
+    </LinearLayout>
+</com.google.android.flexbox.FlexboxLayout>

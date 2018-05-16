@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Agroneo</string>
+    <string name="navigation_open">Open menu</string>
+    <string name="navigation_close">Close menu</string>
+    <string name="nav_header_title">Agroneo.com</string>
+    <string name="nav_header_subtitle">Grow the world</string>
+    <string name="action_settings">Settings</string>
+    <string name="gaia">Plants Map</string>
+    <string name="discuss">Discuss</string>
+    <string name="documents">Documents</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
