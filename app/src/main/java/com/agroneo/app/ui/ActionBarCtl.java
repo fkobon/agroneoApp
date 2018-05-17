@@ -68,13 +68,17 @@ public class ActionBarCtl {
             try {
                 Thread.sleep(params[1] * 1000);
             } catch (Exception e) {
-
+                return null;
             }
             return params[0] > 0;
         }
 
         @Override
         protected void onPostExecute(Boolean show) {
+            if (show == null) {
+                //canceled
+                return;
+            }
             if (show) {
                 showing();
             } else {
@@ -85,7 +89,6 @@ public class ActionBarCtl {
 
     public interface ActionImpl {
         void showing();
-
         void hidding();
     }
 }
