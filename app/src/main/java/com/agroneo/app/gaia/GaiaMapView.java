@@ -9,7 +9,7 @@ import android.support.v4.app.ActivityCompat;
 
 import com.agroneo.app.R;
 import com.agroneo.app.api.ApiAgroneo;
-import com.agroneo.app.ui.action.ActionBarCtl;
+import com.agroneo.app.ui.ActionBarCtl;
 import com.agroneo.app.utils.Json;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GaiaView extends MapView implements OnMapReadyCallback, OnMapClickListener,
+public class GaiaMapView extends MapView implements OnMapReadyCallback, OnMapClickListener,
         OnCameraMoveStartedListener, OnCameraMoveListener, OnCameraMoveCanceledListener, OnCameraIdleListener {
 
     private final Map<String, Marker> markers = new HashMap<>();
@@ -40,7 +40,7 @@ public class GaiaView extends MapView implements OnMapReadyCallback, OnMapClickL
     private ActionBarCtl actionbar = null;
     private AsyncTask<String, String, Json> task = null;
 
-    public GaiaView(Context context, Bundle savedInstanceState) {
+    public GaiaMapView(Context context, Bundle savedInstanceState) {
         super(context);
         onCreate(savedInstanceState);
         onResume();
@@ -75,7 +75,7 @@ public class GaiaView extends MapView implements OnMapReadyCallback, OnMapClickL
                 .put("east", bounds.northeast.longitude)
         );
 
-        task = new ApiAgroneo() {
+        task = new ApiAgroneo(getContext()) {
             @Override
             public void result(Json response) {
                 viewSpecimens(response);

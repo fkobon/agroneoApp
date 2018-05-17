@@ -7,13 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.agroneo.app.ui.action.ActionBarCtl;
+import com.agroneo.app.ui.ActionBarCtl;
 
-public class DocumentsFragment extends Fragment {
+public class PagesFragment extends Fragment {
 
     private ActionBarCtl actionbar;
 
-    public DocumentsFragment setActionbar(ActionBarCtl actionbar) {
+    public PagesFragment setActionbar(ActionBarCtl actionbar) {
         this.actionbar = actionbar;
         return this;
     }

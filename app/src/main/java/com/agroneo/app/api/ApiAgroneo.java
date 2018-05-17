@@ -1,11 +1,12 @@
 package com.agroneo.app.api;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
+import com.agroneo.app.R;
 import com.agroneo.app.utils.Json;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -14,7 +15,11 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 public abstract class ApiAgroneo extends AsyncTask<String, String, Json> implements ApiImpl {
-    private final String api = "https://api.agroneo.com";
+    private String api;
+
+    public ApiAgroneo(Context context) {
+        api = context.getString(R.string.api_url);
+    }
 
     public AsyncTask<String, String, Json> doGet(String url) {
         return execute(url, "GET");
@@ -45,17 +50,18 @@ public abstract class ApiAgroneo extends AsyncTask<String, String, Json> impleme
             connection.connect();
 
 
-            InputStream inputStream;
+            InputStream inputStream = null;
             try {
                 inputStream = connection.getInputStream();
             } catch (Exception e) {
                 inputStream = connection.getErrorStream();
             }
 
-            StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
                 return null;
             }
+
+            StringBuffer buffer = new StringBuffer();
             reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
@@ -64,7 +70,7 @@ public abstract class ApiAgroneo extends AsyncTask<String, String, Json> impleme
             }
 
             return new Json(buffer.toString());
-        } catch (IOException e) {
+        } catch (Exception e) {
             return null;
         } finally {
             if (connection != null) {

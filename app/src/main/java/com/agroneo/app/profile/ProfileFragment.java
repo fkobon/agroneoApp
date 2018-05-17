@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.agroneo.app.ui.action.ActionBarCtl;
+import com.agroneo.app.ui.ActionBarCtl;
 
 public class ProfileFragment extends Fragment {
 

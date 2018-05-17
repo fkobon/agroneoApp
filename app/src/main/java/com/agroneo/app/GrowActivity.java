@@ -15,9 +15,9 @@ import android.view.MenuItem;
 
 import com.agroneo.app.discuss.DiscussFragment;
 import com.agroneo.app.gaia.GaiaFragment;
-import com.agroneo.app.pages.DocumentsFragment;
+import com.agroneo.app.pages.PagesFragment;
 import com.agroneo.app.profile.ProfileFragment;
-import com.agroneo.app.ui.action.ActionBarCtl;
+import com.agroneo.app.ui.ActionBarCtl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class GrowActivity extends AppCompatActivity
     private GaiaFragment gaia;
     private DiscussFragment discuss;
     private ProfileFragment profile;
-    private DocumentsFragment documents;
+    private PagesFragment documents;
 
 
     @Override
@@ -54,7 +54,7 @@ public class GrowActivity extends AppCompatActivity
         gaia = new GaiaFragment().setActionbar(actionbarCtl);
         discuss = new DiscussFragment().setActionbar(actionbarCtl);
         profile = new ProfileFragment().setActionbar(actionbarCtl);
-        documents = new DocumentsFragment().setActionbar(actionbarCtl);
+        documents = new PagesFragment().setActionbar(actionbarCtl);
 
         setFragment(discuss);
 
