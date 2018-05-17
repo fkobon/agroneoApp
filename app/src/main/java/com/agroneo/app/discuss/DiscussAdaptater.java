@@ -1,49 +1,38 @@
 package com.agroneo.app.discuss;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import com.agroneo.app.R;
 
-public class DiscussAdaptater extends BaseAdapter {
+public class DiscussAdaptater extends CursorAdapter {
 
-    private Context context;
 
-    public DiscussAdaptater(Context context) {
-        this.context = context;
+    public DiscussAdaptater(Context context, Cursor cursor) {
+        super(context, cursor, 0);
     }
 
     @Override
-    public int getCount() {
-        return 1005;
-    }
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
 
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).
-                    inflate(R.layout.discuss_forum, parent, false);
-        }
+        View convertView = LayoutInflater.from(context).inflate(R.layout.discuss_forum, parent, false);
 
         return convertView;
     }
 
     @Override
-    public boolean isEnabled(int position) {
-        return false;
+    public void bindView(View view, Context context, Cursor cursor) {
+        if (cursor.isFirst()) {
+            PopulateDb.updateFirst();
+        }
+        if (cursor.isLast()) {
+
+            PopulateDb.updateLast();
+        }
     }
+
 }
