@@ -16,7 +16,6 @@ import java.util.Set;
 import java.util.TimeZone;
 
 public class Json extends LinkedHashMap<String, Object> {
-    public static final String ISO_DATE = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"; // Warning.. Z necessary for next
 
     public Json() {
         super();
@@ -28,7 +27,7 @@ public class Json extends LinkedHashMap<String, Object> {
         }
         try {
             ObjectMapper objmapper = new ObjectMapper();
-            DateFormat df = new SimpleDateFormat(ISO_DATE);
+            DateFormat df = new SimpleDateFormat(Fx.ISO_DATE);
             df.setTimeZone(TimeZone.getTimeZone("UTC"));
             objmapper.setDateFormat(df);
             putAll(objmapper.readValue(json_string, Json.class));
@@ -116,7 +115,7 @@ public class Json extends LinkedHashMap<String, Object> {
             return null;
         }
         try {
-            return new SimpleDateFormat(ISO_DATE).parse(getString(key));
+            return new SimpleDateFormat(Fx.ISO_DATE).parse(getString(key));
         } catch (Exception e) {
             return null;
         }

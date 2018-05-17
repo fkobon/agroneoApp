@@ -32,9 +32,7 @@ public class DiscussPopulator {
             public void result(Json response) {
                 Json posts = response.getJson("posts");
                 if (posts != null) {
-                    for (Json post : posts.getListJson("result")) {
-                        db.insertDiscuss(post);
-                    }
+                    db.insertDiscuss(posts.getListJson("result"));
                 }
                 reloadCursor();
             }
@@ -43,12 +41,8 @@ public class DiscussPopulator {
     }
 
     private void reloadCursor() {
-        Cursor newcursor = db.getDiscuss(parent);
-        adapter.changeCursor(newcursor);
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-        cursor = newcursor;
+        adapter.changeCursor(db.getDiscuss(parent));
+
     }
 
     public void last() {
