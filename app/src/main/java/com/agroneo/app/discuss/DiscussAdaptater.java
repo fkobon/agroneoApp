@@ -13,9 +13,9 @@ public class DiscussAdaptater extends CursorAdapter {
 
     private DiscussPopulator populator;
 
-    public DiscussAdaptater(Context context) {
+    public DiscussAdaptater(Context context, String parent) {
         super(context, null, 0);
-        populator = new DiscussPopulator(context, this);
+        populator = new DiscussPopulator(context, this, parent);
 
     }
 

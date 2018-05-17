@@ -60,6 +60,12 @@ public class ActionBarCtl {
         return actionBar.getHeight();
     }
 
+    public interface ActionImpl {
+        void showing();
+
+        void hidding();
+    }
+
     public abstract static class ActionBarAsyncTask extends AsyncTask<Integer, Boolean, Boolean> implements ActionImpl {
 
 
@@ -85,10 +91,5 @@ public class ActionBarCtl {
                 hidding();
             }
         }
-    }
-
-    public interface ActionImpl {
-        void showing();
-        void hidding();
     }
 }

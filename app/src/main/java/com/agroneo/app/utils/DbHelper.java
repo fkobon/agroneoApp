@@ -25,4 +25,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public Cursor getDiscuss(String parent) {
         return null;
     }
+
+    public void insertDiscuss(Json post) {
+        Fx.log(post);
+    }
 }

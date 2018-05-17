@@ -23,7 +23,7 @@ public class DiscussFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         ListView view = (ListView) inflater.inflate(R.layout.discuss, container, false);
-        DiscussAdaptater adaptater = new DiscussAdaptater(getContext());
+        DiscussAdaptater adaptater = new DiscussAdaptater(getContext(), "");
         view.setAdapter(adaptater);
         return view;
     }
