@@ -11,9 +11,12 @@ import com.agroneo.app.R;
 
 public class DiscussAdaptater extends CursorAdapter {
 
+    private DiscussPopulator populator;
 
-    public DiscussAdaptater(Context context, Cursor cursor) {
-        super(context, cursor, 0);
+    public DiscussAdaptater(Context context) {
+        super(context, null, 0);
+        populator = new DiscussPopulator(context, this);
+
     }
 
     @Override
@@ -27,11 +30,10 @@ public class DiscussAdaptater extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         if (cursor.isFirst()) {
-            PopulateDb.updateFirst();
+            populator.first();
         }
         if (cursor.isLast()) {
-
-            PopulateDb.updateLast();
+            populator.last();
         }
     }
 
