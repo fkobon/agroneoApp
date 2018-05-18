@@ -24,4 +24,9 @@
         <item name="android:background">#FFF</item>
     </style>
 
+    <style name="bigtext">
+        <item name="android:textSize">30dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
