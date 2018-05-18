@@ -87,9 +87,16 @@ public abstract class ApiAgroneo extends AsyncTask<String, String, Json> impleme
 
     @Override
     protected void onPostExecute(Json response) {
-        result(response);
+        if (response != null) {
+            result(response);
+        } else {
+            error();
+        }
     }
 
+    @Override
+    public void error() {
+    }
 
     @Override
     protected void onProgressUpdate(String... values) {
