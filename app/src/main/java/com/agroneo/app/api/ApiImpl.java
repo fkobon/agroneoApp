@@ -4,6 +4,7 @@ import com.agroneo.app.utils.Json;
 
 public interface ApiImpl {
     void result(Json response);
+
     void error();
 
 }

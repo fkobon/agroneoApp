@@ -7,9 +7,9 @@ public class Fx {
 
     public static void log(Object msg) {
         try {
-            Log.e("Log", msg.toString());
+            Log.d("Log", msg.toString());
         } catch (Exception e) {
-            Log.e("Log", "" + msg);
+            Log.d("Log", "" + msg);
         }
     }
 }
