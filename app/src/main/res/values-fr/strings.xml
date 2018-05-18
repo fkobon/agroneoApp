@@ -12,4 +12,5 @@
     <string name="navigation_open">Ouvrir le menu</string>
     <string name="navigation_close">Fermer le menu</string>
     <string name="title_activity_maps">Gaia</string>
+    <string name="oauth_info">Choisissez un service pour vous connecter à Agroneo</string>
 </resources>

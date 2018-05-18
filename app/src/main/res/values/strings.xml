@@ -13,4 +13,5 @@
     <string name="title_activity_maps">Map</string>
     <string name="google">Google</string>
     <string name="facebook">Facebook</string>
+    <string name="oauth_info">Choose a service to connect to Agroneo</string>
 </resources>

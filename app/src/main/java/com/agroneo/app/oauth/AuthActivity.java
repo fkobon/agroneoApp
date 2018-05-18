@@ -15,9 +15,9 @@ public class AuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = AccountPicker.newChooseAccountIntent(null, null,
-                new String[]{"com.google","com.agroneo", "com.twitter", "com.facebook"},
-                true, null, null, null, null);
-        startActivity(intent);
+                new String[]{"com.google", "com.facebook.auth.login", "com.twitter.android.auth.login"},
+                true, getString(R.string.oauth_info), null, null, null);
+        startActivityForResult(intent, 0);
 
         //setContentView(R.layout.connect);
     }
