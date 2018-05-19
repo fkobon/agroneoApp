@@ -4,9 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
-import com.agroneo.app.oauth.AuthActivity;
 
 public class HR extends View {
     public HR(Context context) {

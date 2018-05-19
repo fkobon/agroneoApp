@@ -12,7 +12,20 @@ import java.util.Date;
 import java.util.List;
 
 public class DbObject {
-    
+
+    public static String[] getProjection(Class cls) {
+        List<String> projections = new ArrayList<>();
+        for (Field field : cls.getFields()) {
+            Annotation[] annos = field.getDeclaredAnnotations();
+            if (annos.length == 1) {
+                if (annos[0].toString().startsWith("@" + Type.class.getName())) {
+                    projections.add(field.getName());
+                }
+            }
+        }
+        return projections.toArray(new String[0]);
+    }
+
     public void setCursor(Cursor cursor) {
         for (Field field : getClass().getFields()) {
 
@@ -44,19 +57,6 @@ public class DbObject {
             }
         }
 
-    }
-
-    public static String[] getProjection(Class cls) {
-        List<String> projections = new ArrayList<>();
-        for (Field field : cls.getFields()) {
-            Annotation[] annos = field.getDeclaredAnnotations();
-            if (annos.length == 1) {
-                if (annos[0].toString().startsWith("@" + Type.class.getName())) {
-                    projections.add(field.getName());
-                }
-            }
-        }
-        return projections.toArray(new String[0]);
     }
 
     public ContentValues getContentValues() {
