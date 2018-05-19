@@ -20,6 +20,9 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try {
             db.execSQL("DROP TABLE threads");
+        } catch (Exception e) {
+        }
+        try {
             db.execSQL("DROP TABLE forums");
         } catch (Exception e) {
         }
@@ -32,6 +35,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 " last_id VARCHAR2(26)," +
                 " last TEXT," +
                 " user_id VARCHAR2(26)," +
+                " user_avatar TEXT," +
                 " user TEXT," +
                 " replies INT," +
                 " parent VARCHAR2(26) )";
@@ -53,30 +57,31 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getDiscuss(String parent) {
-        String[] projection = {"_id", "title", "date", "last_date", "last_id", "last", "user_id", "user", "replies", "parent"};
+        String[] projection = {"_id", "title", "date", "last_date", "last_id", "last", "user_id","user_avatar", "user", "replies", "parent"};
         String selection = "parent = ?";
         String[] args = {parent};
         return getReadableDatabase().query("threads", projection, selection, args, null, null, "date DESC");
     }
 
-    public void insertDiscuss(List<Json> posts) {
+    public void insertDiscuss(List<Json> threads) {
         SQLiteDatabase db = getWritableDatabase();
-        for (Json post : posts) {
+        for (Json thread : threads) {
             ContentValues values = new ContentValues();
-            values.put("_id", post.getId());
-            values.put("title", post.getString("title"));
-            values.put("date", post.parseDate("date").getTime());
-            Json last = post.getJson("last");
+            values.put("_id", thread.getId());
+            values.put("title", thread.getString("title"));
+            values.put("date", thread.parseDate("date").getTime());
+            Json last = thread.getJson("last");
             values.put("last_date", last.parseDate("date").getTime());
             values.put("last_id", last.getId());
             values.put("last", last.toString());
 
-            Json user = post.getJson("user");
+            Json user = thread.getJson("user");
             values.put("user_id", user.getId());
+            values.put("user_avatar", user.getString("avatar"));
             values.put("user", user.toString());
 
-            values.put("replies", post.getInteger("replies"));
-            List<Json> parents = post.getListJson("parents");
+            values.put("replies", thread.getInteger("replies"));
+            List<Json> parents = thread.getListJson("parents");
             if (parents == null || parents.size() == 0) {
                 values.put("parent", "");
             } else {

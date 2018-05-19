@@ -7,9 +7,10 @@
     android:theme="@style/discussForum">
 
     <ImageView
+        android:id="@+id/avatar"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:foreground="@drawable/logo"
+        android:src="@drawable/logo"
         app:layout_alignSelf="center"
         app:layout_minWidth="70dp" />
 
