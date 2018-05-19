@@ -35,18 +35,11 @@ public class DbHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
         }
         try {
-            db.execSQL("DROP TABLE Forum");
+            db.execSQL("DROP TABLE Forums");
         } catch (Exception e) {
         }
         db.execSQL((new Threads().createTable()));
         db.execSQL((new Forums().createTable()));
-
-        String forums = "CREATE TABLE forums ( " +
-                " _id VARCHAR2(26)," +
-                " title VARCHAR2(255), " +
-                " parent VARCHAR2(26) )";
-        db.execSQL(forums);
-
 
     }
 
@@ -56,7 +49,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getDiscuss(String parent) {
-        String[] projection = {"_id", "title", "date", "last_date", "last_id", "last", "user_id", "user_avatar", "user", "replies", "parent"};
+        String[] projection = Threads.getProjection(Threads.class);
         String selection = "parent = ?";
         String[] args = {parent};
         return getReadableDatabase().query("threads", projection, selection, args, null, null, "date DESC");

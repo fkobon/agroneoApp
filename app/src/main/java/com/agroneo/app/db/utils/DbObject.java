@@ -13,6 +13,7 @@ public class DbObject {
 
     private Cursor cursor;
 
+
     public void setCursor(Cursor cursor) {
         this.cursor = cursor;
     }
@@ -22,7 +23,6 @@ public class DbObject {
     }
 
     public String createTable() {
-
         String query = "CREATE TABLE " + getClass().getSimpleName() + " (";
         List<String> cols = new ArrayList<>();
         for (Field field : getClass().getFields()) {
@@ -35,5 +35,18 @@ public class DbObject {
         }
         query += Fx.join(cols, ",") + ")";
         return query;
+    }
+
+    public static String[] getProjection(Class cls) {
+        List<String> projections = new ArrayList<>();
+        for (Field field : cls.getFields()) {
+            Annotation[] annos = field.getDeclaredAnnotations();
+            for (Annotation anno : annos) {
+                if (anno.toString().startsWith("@" + Type.class.getName())) {
+                    projections.add(field.getName());
+                }
+            }
+        }
+        return projections.toArray(new String[0]);
     }
 }
