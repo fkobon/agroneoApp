@@ -1,10 +1,14 @@
-package com.agroneo.app.utils;
+package com.agroneo.app.db.utils;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.agroneo.app.db.Forums;
+import com.agroneo.app.db.Threads;
+import com.agroneo.app.utils.Json;
 
 import java.util.List;
 
@@ -26,21 +30,16 @@ public class DbHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE forums");
         } catch (Exception e) {
         }
-
-        String threads = "CREATE TABLE threads ( " +
-                " _id VARCHAR2(26)," +
-                " title VARCHAR2(255), " +
-                " date INT," +
-                " last_date INT," +
-                " last_id VARCHAR2(26)," +
-                " last TEXT," +
-                " user_id VARCHAR2(26)," +
-                " user_avatar TEXT," +
-                " user TEXT," +
-                " replies INT," +
-                " parent VARCHAR2(26) )";
-        db.execSQL(threads);
-
+        try {
+            db.execSQL("DROP TABLE Threads");
+        } catch (Exception e) {
+        }
+        try {
+            db.execSQL("DROP TABLE Forum");
+        } catch (Exception e) {
+        }
+        db.execSQL((new Threads().createTable()));
+        db.execSQL((new Forums().createTable()));
 
         String forums = "CREATE TABLE forums ( " +
                 " _id VARCHAR2(26)," +
@@ -57,7 +56,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getDiscuss(String parent) {
-        String[] projection = {"_id", "title", "date", "last_date", "last_id", "last", "user_id","user_avatar", "user", "replies", "parent"};
+        String[] projection = {"_id", "title", "date", "last_date", "last_id", "last", "user_id", "user_avatar", "user", "replies", "parent"};
         String selection = "parent = ?";
         String[] args = {parent};
         return getReadableDatabase().query("threads", projection, selection, args, null, null, "date DESC");

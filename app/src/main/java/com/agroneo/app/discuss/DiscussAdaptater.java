@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.agroneo.app.R;
+import com.agroneo.app.db.Threads;
 import com.agroneo.app.utils.ImageLoader;
 
 public class DiscussAdaptater extends CursorAdapter {
@@ -28,6 +29,9 @@ public class DiscussAdaptater extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        Threads thread = new Threads();
+        thread.setCursor(cursor);
+
         if (cursor.isFirst()) {
             populator.first();
         }
@@ -35,9 +39,8 @@ public class DiscussAdaptater extends CursorAdapter {
             populator.last();
         }
 
-        ((TextView) view.findViewById(R.id.title)).setText(cursor.getString(cursor.getColumnIndex("title")));
-        String avatar = cursor.getString(cursor.getColumnIndex("user_avatar"));
-        ImageLoader.setRound(avatar + "@200x200", view.findViewById(R.id.avatar), R.dimen.avatarDpw);
+        ((TextView) view.findViewById(R.id.title)).setText(thread.getString("title"));
+        ImageLoader.setRound(thread.getString("user_avatar") + "@200x200", view.findViewById(R.id.avatar), R.dimen.avatarDpw);
 
 
     }

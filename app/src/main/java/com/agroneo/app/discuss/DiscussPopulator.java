@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
 
 import com.agroneo.app.api.ApiAgroneo;
-import com.agroneo.app.utils.DbHelper;
+import com.agroneo.app.db.utils.DbHelper;
 import com.agroneo.app.utils.Json;
 
 public class DiscussPopulator {
