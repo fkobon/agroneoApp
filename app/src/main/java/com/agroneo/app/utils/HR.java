@@ -12,6 +12,6 @@ public class HR extends View {
     public HR(Context context) {
         super(context);
         setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
-        setBackgroundColor(Color.GRAY);
+        setBackgroundColor(Color.parseColor("#EEEEEE"));
     }
 }
