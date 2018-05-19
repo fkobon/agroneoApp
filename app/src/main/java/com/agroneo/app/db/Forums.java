@@ -13,4 +13,5 @@ public class Forums extends DbObject {
 
     @Type(type = "VARCHAR2(26)")
     String parent;
+
 }
