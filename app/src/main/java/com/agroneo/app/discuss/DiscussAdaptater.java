@@ -6,11 +6,10 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.agroneo.app.R;
-import com.squareup.picasso.Picasso;
+import com.agroneo.app.utils.ImageLoader;
 
 public class DiscussAdaptater extends CursorAdapter {
 
@@ -38,10 +37,8 @@ public class DiscussAdaptater extends CursorAdapter {
 
         ((TextView) view.findViewById(R.id.title)).setText(cursor.getString(cursor.getColumnIndex("title")));
         String avatar = cursor.getString(cursor.getColumnIndex("user_avatar"));
-        Picasso.get()
-                .load(avatar + "@200x200")
-                .resizeDimen(R.dimen.avatarDpw, R.dimen.avatarDpw)
-                .into((ImageView) view.findViewById(R.id.avatar));
+        ImageLoader.setRound(avatar + "@200x200", view.findViewById(R.id.avatar), R.dimen.avatarDpw);
+
 
     }
 

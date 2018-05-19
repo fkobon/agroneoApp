@@ -88,7 +88,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 values.put("parent", parents.get(0).getId());
             }
 
-            db.insertWithOnConflict("threads", "id", values, SQLiteDatabase.CONFLICT_REPLACE);
+            db.insertWithOnConflict("threads", "_id", values, SQLiteDatabase.CONFLICT_REPLACE);
         }
         db.close();
     }

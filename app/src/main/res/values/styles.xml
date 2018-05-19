@@ -29,4 +29,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="avatar">
+        <item name="android:background">@drawable/avatar_shadow</item>
+    </style>
+    <style name="avatar_img">
+        <item name="android:background">@drawable/avatar_img_shadow</item>
+    </style>
+
 </resources>

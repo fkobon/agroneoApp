@@ -3,21 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:alignItems="flex_start"
-    android:theme="@style/discussForum">
+    android:theme="@style/discussForum"
+    app:alignItems="flex_start">
 
-    <ImageView
-        android:id="@+id/avatar"
+
+    <LinearLayout
         android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/logo"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:theme="@style/avatar"
         app:layout_alignSelf="center"
-        app:layout_minWidth="70dp" />
+        app:layout_minWidth="80dp">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="2dp"
+            android:src="@drawable/logo"
+            android:theme="@style/avatar_img" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingLeft="5dp"
         app:layout_flexBasisPercent="100%">
 
         <TextView
@@ -26,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="Title"
             android:textSize="20dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/breadcrumb"
