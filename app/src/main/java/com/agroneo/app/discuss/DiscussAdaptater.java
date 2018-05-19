@@ -24,10 +24,7 @@ public class DiscussAdaptater extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-
-        View convertView = LayoutInflater.from(context).inflate(R.layout.discuss_forum, parent, false);
-
-        return convertView;
+        return LayoutInflater.from(context).inflate(R.layout.discuss_forum, parent, false);
     }
 
     @Override
@@ -38,15 +35,14 @@ public class DiscussAdaptater extends CursorAdapter {
         if (cursor.isLast()) {
             populator.last();
         }
-        try {
-            ((TextView) view.findViewById(R.id.title)).setText(cursor.getString(cursor.getColumnIndex("title")));
-            String avatar = cursor.getString(cursor.getColumnIndex("user_avatar"));
-            Picasso.get()
-                    .load(avatar + "@70x70")
-                    .into(((ImageView) view.findViewById(R.id.avatar)));
-        } catch (Exception e) {
 
-        }
+        ((TextView) view.findViewById(R.id.title)).setText(cursor.getString(cursor.getColumnIndex("title")));
+        String avatar = cursor.getString(cursor.getColumnIndex("user_avatar"));
+        Picasso.get()
+                .load(avatar + "@200x200")
+                .resizeDimen(R.dimen.avatarDpw, R.dimen.avatarDpw)
+                .into((ImageView) view.findViewById(R.id.avatar));
+
     }
 
 }
