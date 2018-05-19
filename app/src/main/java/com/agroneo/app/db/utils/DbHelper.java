@@ -1,6 +1,5 @@
 package com.agroneo.app.db.utils;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -49,38 +48,35 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getDiscuss(String parent) {
-        String[] projection = Threads.getProjection(Threads.class);
         String selection = "parent = ?";
         String[] args = {parent};
-        return getReadableDatabase().query("threads", projection, selection, args, null, null, "date DESC");
+        return getReadableDatabase().query("threads", Threads.getProjection(Threads.class), selection, args, null, null, "date DESC");
     }
 
-    public void insertDiscuss(List<Json> threads) {
+    public void insertDiscuss(List<Json> threadsJson) {
         SQLiteDatabase db = getWritableDatabase();
-        for (Json thread : threads) {
-            ContentValues values = new ContentValues();
-            values.put("_id", thread.getId());
-            values.put("title", thread.getString("title"));
-            values.put("date", thread.parseDate("date").getTime());
-            Json last = thread.getJson("last");
-            values.put("last_date", last.parseDate("date").getTime());
-            values.put("last_id", last.getId());
-            values.put("last", last.toString());
+        for (Json threadJson : threadsJson) {
+            Threads threadDb = new Threads();
+            threadDb._id = threadJson.getId();
+            threadDb.title = threadJson.getString("title");
+            threadDb.date = threadJson.parseDate("date");
+            Json last = threadJson.getJson("last");
+            threadDb.last_date = last.parseDate("date");
+            threadDb.last_id = last.getId();
 
-            Json user = thread.getJson("user");
-            values.put("user_id", user.getId());
-            values.put("user_avatar", user.getString("avatar"));
-            values.put("user", user.toString());
+            Json user = threadJson.getJson("user");
+            threadDb.user_id = user.getId();
+            threadDb.user_avatar = user.getString("avatar");
 
-            values.put("replies", thread.getInteger("replies"));
-            List<Json> parents = thread.getListJson("parents");
+            threadDb.replies = threadJson.getInteger("replies");
+            List<Json> parents = threadJson.getListJson("parents");
             if (parents == null || parents.size() == 0) {
-                values.put("parent", "");
+                threadDb.parent = "";
             } else {
-                values.put("parent", parents.get(0).getId());
+                threadDb.parent = parents.get(0).getId();
             }
 
-            db.insertWithOnConflict("threads", "_id", values, SQLiteDatabase.CONFLICT_REPLACE);
+            db.insertWithOnConflict("threads", "_id", threadDb.getContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
         }
         db.close();
     }

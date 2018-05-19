@@ -39,8 +39,8 @@ public class DiscussAdaptater extends CursorAdapter {
             populator.last();
         }
 
-        ((TextView) view.findViewById(R.id.title)).setText(thread.getString("title"));
-        ImageLoader.setRound(thread.getString("user_avatar") + "@200x200", view.findViewById(R.id.avatar), R.dimen.avatarDpw);
+        ((TextView) view.findViewById(R.id.title)).setText(thread.title);
+        ImageLoader.setRound(thread.user_avatar + "@200x200", view.findViewById(R.id.avatar), R.dimen.avatarDpw);
 
 
     }
