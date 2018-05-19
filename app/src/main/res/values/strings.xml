@@ -14,4 +14,6 @@
     <string name="google">Google</string>
     <string name="facebook">Facebook</string>
     <string name="oauth_info">Choose a service to connect to Agroneo</string>
+    <string name="twitter">Twitter</string>
+    <string name="microsoft">Microsoft</string>
 </resources>

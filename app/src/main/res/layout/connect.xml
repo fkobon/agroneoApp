@@ -17,7 +17,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:foreground="@drawable/ic_google"
+            android:foreground="@drawable/google"
             android:layout_marginRight="5dp" />
 
         <TextView
@@ -37,7 +37,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:foreground="@drawable/ic_facebook"
+            android:foreground="@drawable/facebook"
             android:layout_marginRight="5dp"/>
 
         <TextView
