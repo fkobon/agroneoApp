@@ -18,7 +18,7 @@ public class DbHelper {
     }
 
 
-    public void insertDiscuss(List<Json> threadsJson) {
+    public void insertDiscuss(List<Json> threadsJson, String next) {
         AppDatabase db = AppDatabase.getAppDatabase(context);
         ThreadsDao td = db.threadsDao();
         for (Json threadJson : threadsJson) {
@@ -41,6 +41,8 @@ public class DbHelper {
             } else {
                 threadDb.parent = parents.get(0).getId();
             }
+            threadDb.next = next;
+
             td.insertAll(threadDb);
         }
         db.destroyInstance();

@@ -29,13 +29,12 @@ public class ThreadsAdaptater extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        if (cursor.isFirst()) {
-            populator.first();
-        }
         if (cursor.isLast()) {
-            populator.last();
+            String next = cursor.getString(cursor.getColumnIndex("next"));
+            if (next != null) {
+                populator.update(next);
+            }
         }
-
         ((TextView) view.findViewById(R.id.title)).setText(cursor.getString(cursor.getColumnIndex("title")));
         ImageLoader.setRound(cursor.getString(cursor.getColumnIndex("user_avatar")) + "@200x200", view.findViewById(R.id.avatar), R.dimen.avatarDpw);
 

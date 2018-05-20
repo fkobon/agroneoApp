@@ -5,8 +5,8 @@ import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
 
 import com.agroneo.app.api.ApiAgroneo;
-import com.agroneo.app.utils.db.DbHelper;
 import com.agroneo.app.utils.Json;
+import com.agroneo.app.utils.db.DbHelper;
 
 public class ThreadsPopulator {
 
@@ -27,16 +27,24 @@ public class ThreadsPopulator {
     }
 
     public void update() {
+        update(null);
+    }
+
+    public void update(String next) {
+        String url = "forum" + parent;
+        if (next != null) {
+            url += "?paging=" + next;
+        }
         new ApiAgroneo(context) {
             @Override
             public void result(Json response) {
                 Json posts = response.getJson("posts");
                 if (posts != null) {
-                    db.insertDiscuss(posts.getListJson("result"));
+                    db.insertDiscuss(posts.getListJson("result"), posts.getJson("paging").getString("next"));
                 }
                 reloadCursor();
             }
-        }.doGet("forum" + parent);
+        }.doGet(url);
 
     }
 
@@ -45,8 +53,6 @@ public class ThreadsPopulator {
 
     }
 
-    public void last() {
-    }
 
     public void first() {
     }

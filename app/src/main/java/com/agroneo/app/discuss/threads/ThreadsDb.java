@@ -52,6 +52,10 @@ public class ThreadsDb {
 
         public String parent;
 
+        public String next;
+
+
+
     }
 
 }
