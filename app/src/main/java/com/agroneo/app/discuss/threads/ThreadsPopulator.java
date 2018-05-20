@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
 
 import com.agroneo.app.api.ApiAgroneo;
-import com.agroneo.app.db.DbHelper;
+import com.agroneo.app.utils.db.DbHelper;
 import com.agroneo.app.utils.Json;
 
 public class ThreadsPopulator {
