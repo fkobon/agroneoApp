@@ -72,10 +72,10 @@ public class ThreadsDb {
     @Dao
     public interface ThreadsDao {
 
-        @Query("SELECT * FROM threads")
+        @Query("SELECT * FROM threads ORDER BY last_date DESC")
         Cursor load();
 
-        @Query("SELECT * FROM threads WHERE parent = :parent ORDER BY date DESC")
+        @Query("SELECT * FROM threads WHERE parent = :parent ORDER BY last_date DESC")
         Cursor load(String parent);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -85,7 +85,7 @@ public class ThreadsDb {
         void delete(Threads thread);
     }
 
-    @Entity(indices = {@Index("date")})
+    @Entity(indices = {@Index("date"), @Index("last_date")})
     public static class Threads {
 
         @PrimaryKey
@@ -96,10 +96,10 @@ public class ThreadsDb {
 
         public long date;
 
-        @Embedded(prefix = "last")
+        @Embedded(prefix = "last_")
         public ThreadsLast last = new ThreadsLast();
 
-        @Embedded(prefix = "user")
+        @Embedded(prefix = "user_")
         public UsersData user = new UsersData();
 
         public int replies;
@@ -115,7 +115,7 @@ public class ThreadsDb {
 
         public String _id;
         public long date;
-        @Embedded(prefix = "user")
+        @Embedded(prefix = "user_")
         public UsersData user = new UsersData();
 
     }

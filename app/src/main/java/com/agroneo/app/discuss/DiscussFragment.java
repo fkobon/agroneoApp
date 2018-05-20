@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.agroneo.app.R;
 import com.agroneo.app.discuss.threads.ThreadsAdaptater;
@@ -23,9 +24,12 @@ public class DiscussFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ListView view = (ListView) inflater.inflate(R.layout.discuss, container, false);
-        ThreadsAdaptater adaptater = new ThreadsAdaptater(getContext(), "");
-        view.setAdapter(adaptater);
-        return view;
+        ListView listView = (ListView) inflater.inflate(R.layout.discuss, container, false);
+        ProgressBar loading = (ProgressBar) inflater.inflate(R.layout.progress, listView, false);
+
+        ThreadsAdaptater adaptater = new ThreadsAdaptater(getContext(), listView, loading, "");
+        listView.setAdapter(adaptater);
+
+        return listView;
     }
 }
