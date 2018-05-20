@@ -6,21 +6,20 @@ import android.support.v4.widget.CursorAdapter;
 
 import com.agroneo.app.api.ApiAgroneo;
 import com.agroneo.app.utils.Json;
-import com.agroneo.app.utils.db.DbHelper;
 
 public class ThreadsPopulator {
 
     private CursorAdapter adapter;
     private Cursor cursor;
     private Context context;
-    private DbHelper db;
+    private ThreadsDb db;
     private String parent;
 
     public ThreadsPopulator(Context context, CursorAdapter adapter, String parent) {
         this.context = context;
         this.adapter = adapter;
         this.parent = parent;
-        this.db = new DbHelper(context);
+        this.db = new ThreadsDb(context);
         cursor = db.getDiscuss(parent);
         adapter.changeCursor(cursor);
         update();
@@ -53,7 +52,4 @@ public class ThreadsPopulator {
 
     }
 
-
-    public void first() {
-    }
 }
