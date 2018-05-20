@@ -1,21 +1,18 @@
 package com.agroneo.app.db;
 
-import com.agroneo.app.db.utils.DbObject;
-import com.agroneo.app.db.utils.Index;
-import com.agroneo.app.db.utils.Indexes;
-import com.agroneo.app.db.utils.Type;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 
-@Indexes(@Index(name = "_id", keys = {"_id"}))
-public class Forums extends DbObject {
-
-    @Type(type = "VARCHAR2(26)")
+@Entity
+public class Forums {
+    @PrimaryKey
+    @NonNull
     String _id;
 
-    @Type(type = "VARCHAR2(255)")
     String title;
 
-    @Type(type = "VARCHAR2(26)")
     String parent;
 
 }

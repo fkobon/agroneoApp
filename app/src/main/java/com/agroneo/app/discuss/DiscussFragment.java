@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.agroneo.app.R;
+import com.agroneo.app.discuss.threads.ThreadsAdaptater;
 import com.agroneo.app.ui.ActionBarCtl;
 
 public class DiscussFragment extends Fragment {
@@ -23,7 +24,7 @@ public class DiscussFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         ListView view = (ListView) inflater.inflate(R.layout.discuss, container, false);
-        DiscussAdaptater adaptater = new DiscussAdaptater(getContext(), "");
+        ThreadsAdaptater adaptater = new ThreadsAdaptater(getContext(), "");
         view.setAdapter(adaptater);
         return view;
     }

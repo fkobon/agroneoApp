@@ -1,4 +1,4 @@
-package com.agroneo.app.discuss;
+package com.agroneo.app.discuss.threads;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +8,7 @@ import com.agroneo.app.api.ApiAgroneo;
 import com.agroneo.app.db.utils.DbHelper;
 import com.agroneo.app.utils.Json;
 
-public class DiscussPopulator {
+public class ThreadsPopulator {
 
     private CursorAdapter adapter;
     private Cursor cursor;
@@ -16,7 +16,7 @@ public class DiscussPopulator {
     private DbHelper db;
     private String parent;
 
-    public DiscussPopulator(Context context, CursorAdapter adapter, String parent) {
+    public ThreadsPopulator(Context context, CursorAdapter adapter, String parent) {
         this.context = context;
         this.adapter = adapter;
         this.parent = parent;
