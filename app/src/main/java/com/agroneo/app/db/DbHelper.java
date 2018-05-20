@@ -1,4 +1,4 @@
-package com.agroneo.app.db.utils;
+package com.agroneo.app.db;
 
 import android.content.Context;
 import android.database.Cursor;

@@ -1,11 +1,12 @@
-package com.agroneo.app.db.utils;
+package com.agroneo.app.db;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import com.agroneo.app.db.Forums;
+import com.agroneo.app.discuss.forums.ForumsDb.Forums;
+import com.agroneo.app.discuss.forums.ForumsDb.ForumsDao;
 import com.agroneo.app.discuss.threads.ThreadsDb.Threads;
 import com.agroneo.app.discuss.threads.ThreadsDb.ThreadsDao;
 
@@ -29,4 +30,6 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract ThreadsDao threadsDao();
+
+    public abstract ForumsDao forumsDao();
 }
