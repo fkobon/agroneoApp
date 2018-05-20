@@ -2,6 +2,7 @@ package com.agroneo.app.utils;
 
 import android.util.Log;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,6 +15,10 @@ public class Fx {
         } catch (Exception e) {
             Log.d("Log", "" + msg);
         }
+    }
+
+    public static String join(String[] items, String delimiter) {
+        return join(Arrays.asList(items), delimiter);
     }
 
     public static String join(List<String> items, String delimiter) {

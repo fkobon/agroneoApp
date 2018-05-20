@@ -3,28 +3,14 @@ package com.agroneo.app.db.utils;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.agroneo.app.utils.Fx;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class DbObject {
 
-    public static String[] getProjection(Class cls) {
-        List<String> projections = new ArrayList<>();
-        for (Field field : cls.getFields()) {
-            Annotation[] annos = field.getDeclaredAnnotations();
-            if (annos.length == 1) {
-                if (annos[0].toString().startsWith("@" + Type.class.getName())) {
-                    projections.add(field.getName());
-                }
-            }
-        }
-        return projections.toArray(new String[0]);
-    }
+
+
 
     public void setCursor(Cursor cursor) {
         for (Field field : getClass().getFields()) {
@@ -95,18 +81,4 @@ public class DbObject {
         return values;
     }
 
-    public String createTable() {
-        String query = "CREATE TABLE " + getClass().getSimpleName() + " (";
-        List<String> cols = new ArrayList<>();
-        for (Field field : getClass().getFields()) {
-            Annotation[] annos = field.getDeclaredAnnotations();
-            for (Annotation anno : annos) {
-                if (anno.toString().startsWith("@" + Type.class.getName())) {
-                    cols.add(field.getName() + " " + ((Type) anno).type());
-                }
-            }
-        }
-        query += Fx.join(cols, ",") + ")";
-        return query;
-    }
 }

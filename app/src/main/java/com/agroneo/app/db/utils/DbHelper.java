@@ -5,10 +5,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.agroneo.app.BuildConfig;
 import com.agroneo.app.db.Forums;
 import com.agroneo.app.db.Threads;
 import com.agroneo.app.utils.Json;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -16,29 +20,16 @@ public class DbHelper extends SQLiteOpenHelper {
     public DbHelper(Context context) {
 
         super(context, "agroneo", null, 1);
-        onCreate(getWritableDatabase());
+        if (BuildConfig.DEBUG) {
+            onCreate(getWritableDatabase());
+        }
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        try {
-            db.execSQL("DROP TABLE threads");
-        } catch (Exception e) {
-        }
-        try {
-            db.execSQL("DROP TABLE forums");
-        } catch (Exception e) {
-        }
-        try {
-            db.execSQL("DROP TABLE Threads");
-        } catch (Exception e) {
-        }
-        try {
-            db.execSQL("DROP TABLE Forums");
-        } catch (Exception e) {
-        }
-        db.execSQL((new Threads().createTable()));
-        db.execSQL((new Forums().createTable()));
+
+        DbBuilder.createTable(Threads.class, db);
+        DbBuilder.createTable(Forums.class, db);
 
     }
 
@@ -48,9 +39,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getDiscuss(String parent) {
-        String selection = "parent = ?";
-        String[] args = {parent};
-        return getReadableDatabase().query("threads", Threads.getProjection(Threads.class), selection, args, null, null, "date DESC");
+        return query(Threads.class, "parent = ?", new String[]{parent}, "date DESC");
     }
 
     public void insertDiscuss(List<Json> threadsJson) {
@@ -79,5 +68,22 @@ public class DbHelper extends SQLiteOpenHelper {
             db.insertWithOnConflict("threads", "_id", threadDb.getContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
         }
         db.close();
+    }
+
+    private Cursor query(Class<? extends DbObject> dbobj, String selection, String[] args, String order) {
+        return getReadableDatabase().query("threads", getProjection(dbobj), selection, args, null, null, order);
+    }
+
+    public static String[] getProjection(Class<? extends DbObject> cls) {
+        List<String> projections = new ArrayList<>();
+        for (Field field : cls.getFields()) {
+            Annotation[] annos = field.getDeclaredAnnotations();
+            if (annos.length == 1) {
+                if (annos[0].toString().startsWith("@" + Type.class.getName())) {
+                    projections.add(field.getName());
+                }
+            }
+        }
+        return projections.toArray(new String[0]);
     }
 }
