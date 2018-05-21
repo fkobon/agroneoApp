@@ -1,7 +1,7 @@
 # Agroneo Android
 ### Ceci est ma **première application Android**. Je la développe en complément d’autres projets. Je la diffuse sur GitHub pour évaluation de mon niveau et comme démonstration de mes compétences.
 
-Développer une Application pour Agroneo c’est réaliser une application intégrant les principales fonctions possibles sur un site diffusant du contenu et offrant un forum. Vous pouvez me recruter en tant que salarié à **25€ brut de l’heure** hors région parisienne ou en **télétravail**.
+Développer une Application pour Agroneo c’est réaliser une application intégrant les principales fonctions possibles sur un site diffusant du contenu et offrant un forum.
 
 Cette application est liée au site internet [agroneo.com](https://agroneo.com/) que j’ai développé intégralement en **Java/MongoDb** sur l’Api de base des **Servlets Java**. 
 
@@ -21,4 +21,8 @@ Agroneo dispose de centaines de **milliers de photos** et d’une **api WebSocke
 
 Cette application développé pour Agroneo est **techniquement adaptable** à tout site utilisant la **librairie PageLive**.
  
-_Vous trouverez aussi quelques bouts de codes [dans mon Gist](https://gist.github.com/pagetronic)_, et quelques infos sur [moi sur mon site](https://laurent.page.live/).
+ 
+_Vous trouverez aussi quelques bouts de codes [dans mon Gist](https://gist.github.com/pagetronic), et quelques infos sur [moi sur mon site](https://laurent.page.live/)._
+_Vous pouvez me recruter en tant que salarié à **25€ brut de l’heure** hors région parisienne ou en **télétravail**._
+
+
