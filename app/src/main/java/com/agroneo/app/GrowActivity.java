@@ -60,7 +60,7 @@ public class GrowActivity extends AppCompatActivity
         profile = new ProfileFragment().setActionbar(actionbarCtl);
         documents = new PagesFragment().setActionbar(actionbarCtl);
 
-        setFragment(discuss);
+        setFragment(documents);
 
     }
 

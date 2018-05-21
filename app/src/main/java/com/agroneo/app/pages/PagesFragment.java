@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.agroneo.app.ui.ActionBarCtl;
 
@@ -21,9 +20,9 @@ public class PagesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        TextView view = new TextView(getContext());
-        view.setText("Documents");
-        return view;
+        PagesUtils page = new PagesUtils(getContext(), inflater, container);
+        page.setPage("/documents");
+        return page.getView();
     }
 
 }
