@@ -19,4 +19,4 @@ Agroneo dispose de centaines de **milliers de photos** et d’une api très perf
 
 [Agroneo](https://agroneo.com/) a d’autres ambitions qui viendront au fil du temps (AgroTerraforming & Logs)
  
- 
+_Vous trouverez aussi quelques bouts de codes [dans mon Gist](https://gist.github.com/pagetronic)_, et quelques infos sur [moi sur mon site](https://laurent.page.live/).
