@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.agroneo.app.R;
@@ -14,6 +15,8 @@ import com.agroneo.app.utils.Json;
 class PagesUtils {
     private Context context;
     private LinearLayout view;
+    private LinearLayout content;
+    private ProgressBar loading;
     private TextView title;
     private TextView intro;
     private TextView text;
@@ -24,16 +27,18 @@ class PagesUtils {
         this.context = context;
         this.view = (LinearLayout) inflater.inflate(R.layout.pages, container, false);
 
-        title = view.findViewById(R.id.title);
-        intro = view.findViewById(R.id.intro);
-        text = view.findViewById(R.id.text);
-        childrens = view.findViewById(R.id.childrens);
+        this.loading = view.findViewById(R.id.loading);
+        this.content = view.findViewById(R.id.content);
+        this.title = view.findViewById(R.id.title);
+        this.intro = view.findViewById(R.id.intro);
+        this.text = view.findViewById(R.id.text);
+        this.childrens = view.findViewById(R.id.childrens);
 
 
     }
 
     public void setPage(String url) {
-
+        loading(true);
         new ApiAgroneo(context) {
 
             @Override
@@ -41,8 +46,24 @@ class PagesUtils {
                 title.setText(response.getString("top_title"));
                 intro.setText(response.getString("intro"));
                 text.setText(response.getString("text"));
+                loading(false);
+            }
+            @Override
+            public void error() {
+                loading(false);
             }
         }.doGet(url);
+    }
+
+    public void loading(boolean load) {
+        if (load) {
+            content.setVisibility(ProgressBar.GONE);
+            loading.setVisibility(ProgressBar.VISIBLE);
+        } else {
+            content.setVisibility(ProgressBar.VISIBLE);
+            loading.setVisibility(ProgressBar.GONE);
+        }
+
     }
 
     public LinearLayout getView() {

@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize">
 
+    <include
+        android:id="@+id/loading"
+        layout="@layout/progress"
+        android:visibility="gone"></include>
 
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"/>
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/intro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro"/>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/bigtext"
+            android:text="Title"
+            />
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text
-                        text text text text text text text text text text text text text text text text text text text text text text text text text text text text."/>
+        <TextView
+            android:id="@+id/intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/mediumtext"
+            android:text="intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro" />
 
-    <ListView
-        android:id="@+id/childrens"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/text"
+            android:text="text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text text text text text text text text text text text text text text text." />
 
-    </ListView>
+        <ListView
+            android:id="@+id/childrens"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
+    </LinearLayout>
 
 </LinearLayout>
