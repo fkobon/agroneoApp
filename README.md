@@ -7,7 +7,7 @@ Cette application est liée au site internet [agroneo.com](https://agroneo.com/)
 
 Le système utilise **mon Framework** sous forme de librairie **Jar Maven**, le projet PageLive. **PageLive** est un projet **close-source**, il permet la création d'un CMS/Forum complet avec des Apis. PageLive est pensé SEO et funambule, l'édition est full frontEnd && Play.
 
-Agroneo dispose d’une **Api Json et XML**. L’identification est réalisée par **OAuth** en tant que **server** pour la connexion à travers l’Api et comme **clients** pour l’identification.
+Agroneo dispose d’une **Api Json/XML**. L’identification est réalisée par **OAuth** en tant que **server** pour la connexion à travers l’Api et comme **clients** pour l’identification.
 
 Agroneo dispose d’une **Google Map** de plantes avec photos et informations pour des dizaines de **milliers d’enregistrement**.
 
