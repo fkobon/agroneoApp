@@ -23,6 +23,6 @@ Cette application développé pour Agroneo est **techniquement adaptable** à to
  
  
 _Vous trouverez aussi quelques bouts de codes [dans mon Gist](https://gist.github.com/pagetronic), et quelques infos sur [moi sur mon site](https://laurent.page.live/)._
-_Vous pouvez me recruter en tant que salarié à **25€ brut de l’heure** hors région parisienne ou en **télétravail**. [LindedIn](https://www.linkedin.com)_
+_Vous pouvez me recruter en tant que salarié à **25€ brut de l’heure** hors région parisienne ou en **télétravail**. [LindedIn](https://www.linkedin.com/in/pagetronic/)_
 
 
