@@ -3,6 +3,7 @@ package com.agroneo.app.pages;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,7 +14,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.agroneo.app.R;
-import com.agroneo.app.api.ApiAgroneo;
 import com.agroneo.app.utils.Json;
 
 import java.util.List;
@@ -40,28 +40,20 @@ public class PagesUtils {
         this.text = view.findViewById(R.id.text);
         this.childrens = view.findViewById(R.id.childrens);
 
-
     }
 
-    public void setPage(String url) {
-        loading(true);
-        new ApiAgroneo(context) {
 
-            @Override
-            public void result(Json response) {
-                title.setText(response.getString("top_title"));
-                intro.setText(response.getString("intro"));
-                text.setText(response.getString("text"));
-                childrens.setAdapter(new PagesAdapter(context, response.getListJson("childrens")));
-                loading(false);
-            }
-
-            @Override
-            public void error() {
-                loading(false);
-            }
-        }.doGet(url);
+    public void load(String url) {
+        PagesLoader.load(url, PagesUtils.this);
     }
+
+    public void setPage(Json page) {
+        title.setText(page.getString("top_title"));
+        intro.setText(page.getString("intro"));
+        text.setText(page.getString("text"));
+        childrens.setAdapter(new PagesAdapter(context, page.getListJson("childrens")));
+    }
+
 
     public void loading(boolean load) {
         if (load) {
@@ -78,13 +70,12 @@ public class PagesUtils {
         return view;
     }
 
+    public Context getContext() {
+        return context;
+    }
 
-    public class PagesAdapter extends ArrayAdapter<Json> implements View.OnClickListener {
 
-        @Override
-        public void onClick(View v) {
-            setPage(v.getTag().toString());
-        }
+    public class PagesAdapter extends ArrayAdapter<Json> implements View.OnTouchListener {
 
         public PagesAdapter(@NonNull Context context, @NonNull List<Json> items) {
             super(context, R.layout.pages_list, items);
@@ -99,8 +90,14 @@ public class PagesUtils {
             TextView text = convertView.findViewById(R.id.title);
             text.setText(page.getString("title"));
             text.setTag(page.getString("url"));
-            text.setOnClickListener(this);
+            text.setOnTouchListener(this);
             return convertView;
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            load(v.getTag().toString());
+            return true;
         }
     }
 

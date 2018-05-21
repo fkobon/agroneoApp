@@ -18,7 +18,6 @@ import com.agroneo.app.gaia.GaiaFragment;
 import com.agroneo.app.pages.PagesFragment;
 import com.agroneo.app.profile.ProfileFragment;
 import com.agroneo.app.ui.ActionBarCtl;
-import com.agroneo.app.utils.db.AppDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,7 @@ public class GrowActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-      //  AppDatabase.getAppDatabase(this).clearAllTables();
+        //  AppDatabase.getAppDatabase(this).clearAllTables();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);

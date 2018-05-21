@@ -18,10 +18,9 @@ public class PagesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         PagesUtils page = new PagesUtils(getContext(), inflater, container);
-        page.setPage("/techniques/machines-agricoles/tracteur");
+        page.load("/techniques/machines-agricoles/tracteur");
         return page.getView();
     }
 
