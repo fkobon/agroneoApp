@@ -9,17 +9,21 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Title"/>
 
     <TextView
         android:id="@+id/intro"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro"/>
 
     <TextView
         android:id="@+id/text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text text text text text text text text text text text text text text text."/>
 
     <ListView
         android:id="@+id/childrens"
