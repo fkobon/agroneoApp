@@ -21,7 +21,7 @@ public class PagesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         PagesUtils page = new PagesUtils(getContext(), inflater, container);
-        page.setPage("/documents");
+        page.setPage("/techniques/machines-agricoles/tracteur");
         return page.getView();
     }
 
