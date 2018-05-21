@@ -19,6 +19,7 @@ import com.agroneo.app.utils.Json;
 import java.util.List;
 
 public class PagesUtils {
+
     private Context context;
     private ScrollView view;
     private LinearLayout content;
