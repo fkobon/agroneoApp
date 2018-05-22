@@ -7,7 +7,7 @@ Cette application est liée au site internet [agroneo.com](https://agroneo.com/)
 
 Le système utilise **mon Framework** sous forme de librairie **Jar Maven**, le projet PageLive. **PageLive** est un projet **close-source**, il permet la création d'un CMS/Forum complet avec des Apis. PageLive est pensé SEO et funambule, l'édition est full frontEnd && Play.
 
-Agroneo dispose d’une **Api Json et XML**. L’identification est réalisée par **OAuth** en tant que **server** pour la connexion à travers l’Api et comme **clients** pour l’identification.
+Agroneo dispose d’une **[Api Json](https://api.agroneo.com/documents) / [XML](https://api.agroneo.com/forum.xml)**. L’identification est réalisée par **OAuth** en tant que **server** pour la connexion à travers l’Api et comme **clients** pour l’identification.
 
 Agroneo dispose d’une **Google Map** de plantes avec photos et informations pour des dizaines de **milliers d’enregistrement**.
 
@@ -23,6 +23,6 @@ Cette application développé pour Agroneo est **techniquement adaptable** à to
  
  
 _Vous trouverez aussi quelques bouts de codes [dans mon Gist](https://gist.github.com/pagetronic), et quelques infos sur [moi sur mon site](https://laurent.page.live/)._
-_Vous pouvez me recruter en tant que salarié à **25€ brut de l’heure** hors région parisienne ou en **télétravail**._
+_Vous pouvez me recruter en tant que salarié à **25€ brut de l’heure** hors région parisienne ou en **télétravail**. [LindedIn](https://www.linkedin.com/in/pagetronic/)_
 
 
