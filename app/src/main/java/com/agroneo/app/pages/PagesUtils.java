@@ -24,10 +24,8 @@ public class PagesUtils {
     private ScrollView view;
     private LinearLayout content;
     private ProgressBar loading;
-    private TextView title;
-    private TextView intro;
-    private TextView text;
     private ListView childrens;
+    private PagesParser pageparser;
 
     public PagesUtils(Context context, LayoutInflater inflater, ViewGroup container) {
 
@@ -36,9 +34,9 @@ public class PagesUtils {
 
         this.loading = view.findViewById(R.id.loading);
         this.content = view.findViewById(R.id.content);
-        this.title = view.findViewById(R.id.title);
-        this.intro = view.findViewById(R.id.intro);
-        this.text = view.findViewById(R.id.text);
+
+        pageparser = new PagesParser((LinearLayout) view.findViewById(R.id.text));
+
         this.childrens = view.findViewById(R.id.childrens);
 
     }
@@ -48,10 +46,9 @@ public class PagesUtils {
         PagesLoader.load(url, PagesUtils.this);
     }
 
+
     public void setPage(Json page) {
-        title.setText(page.getString("top_title"));
-        intro.setText(page.getString("intro"));
-        text.setText(page.getString("text"));
+        pageparser.parse(page);
         childrens.setAdapter(new PagesAdapter(context, page.getListJson("childrens")));
     }
 

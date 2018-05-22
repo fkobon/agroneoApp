@@ -1,6 +1,8 @@
 package com.agroneo.app;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -64,6 +66,15 @@ public class GrowActivity extends AppCompatActivity
     }
 
     @Override
+    public void startActivity(Intent intent, @Nullable Bundle options) {
+        if (intent.getData() != null) {
+            if (intent.getData().getScheme().equals("agroneoDocs")) {
+                documents.loadPage(intent.getData().getPath());
+            }
+        }
+    }
+
+    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_map:
@@ -98,6 +109,7 @@ public class GrowActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void setFragment(Fragment fragment) {
 

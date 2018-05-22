@@ -22,28 +22,13 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Title"
-                android:textIsSelectable="true"
-                android:theme="@style/bigtext" />
 
-            <TextView
-                android:id="@+id/intro"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro "
-                android:textIsSelectable="true"
-                android:theme="@style/mediumtext" />
-
-            <TextView
+            <LinearLayout
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="text text text text text text text text text text text text text text text text text text text text text text text."
                 android:textIsSelectable="true"
+                android:orientation="vertical"
                 android:theme="@style/text" />
 
             <ListView

@@ -11,6 +11,7 @@ import com.agroneo.app.ui.ActionBarCtl;
 public class PagesFragment extends Fragment {
 
     private ActionBarCtl actionbar;
+    private PagesUtils page;
 
     public PagesFragment setActionbar(ActionBarCtl actionbar) {
         this.actionbar = actionbar;
@@ -19,9 +20,13 @@ public class PagesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        PagesUtils page = new PagesUtils(getContext(), inflater, container);
-        page.load("/techniques/machines-agricoles/tracteur");
+        page = new PagesUtils(getContext(), inflater, container);
+        loadPage("/plantes/legumes/feuilles/poireau");
         return page.getView();
+    }
+
+    public void loadPage(String url) {
+        page.load(url);
     }
 
 }
