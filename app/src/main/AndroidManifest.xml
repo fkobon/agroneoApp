@@ -44,8 +44,7 @@
 
         <activity
             android:name="com.agroneo.app.oauth.AuthActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/app_name" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

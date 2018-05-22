@@ -7,25 +7,21 @@
 
         <item
             android:id="@+id/nav_map"
-            android:icon="@drawable/ic_menu_map"
+            android:icon="@drawable/ic_map"
             android:title="@string/gaia" />
         <item
             android:id="@+id/nav_discuss"
-            android:icon="@drawable/ic_menu_forum"
+            android:icon="@drawable/ic_discuss"
             android:title="@string/discuss" />
         <item
+            android:id="@+id/nav_documents"
+            android:icon="@drawable/ic_docs"
+            android:title="@string/documents" />
+
+        <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_profile"
+            android:icon="@drawable/ic_profile"
             android:title="@string/profile" />
     </group>
-
-    <item android:title="@string/documents">
-        <menu>
-            <item
-                android:id="@+id/nav_documents"
-                android:icon="@drawable/ic_menu_docs"
-                android:title="@string/documents" />
-        </menu>
-    </item>
 
 </menu>
