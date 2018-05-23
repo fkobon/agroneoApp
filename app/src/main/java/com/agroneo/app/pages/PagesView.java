@@ -78,7 +78,7 @@ public class PagesView extends LinearLayout {
         }
 
         for (Json bread : breadcrumbList) {
-            View br = inflater.inflate(R.layout.bread, this, false);
+            View br = inflater.inflate(R.layout.pages_bread, this, false);
             TextView item = br.findViewById(R.id.bread);
             item.setText(bread.getString("title"));
             final String url = bread.getString("url");
@@ -106,7 +106,7 @@ public class PagesView extends LinearLayout {
         }
 
         for (Json children : childrensList) {
-            View item = LayoutInflater.from(getContext()).inflate(R.layout.pages_list, this, false);
+            View item = LayoutInflater.from(getContext()).inflate(R.layout.pages_item, this, false);
             TextView text = item.findViewById(R.id.title);
             text.setText(children.getString("title"));
             final String url = children.getString("url");

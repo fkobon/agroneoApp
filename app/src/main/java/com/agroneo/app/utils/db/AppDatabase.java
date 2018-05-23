@@ -10,7 +10,7 @@ import com.agroneo.app.discuss.forums.ForumsDb.ForumsDao;
 import com.agroneo.app.discuss.threads.ThreadsDb.Threads;
 import com.agroneo.app.discuss.threads.ThreadsDb.ThreadsDao;
 
-@Database(entities = {Forums.class, Threads.class}, version = 11)
+@Database(entities = {Forums.class, Threads.class}, version = 11, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
 
