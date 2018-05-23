@@ -1,6 +1,8 @@
 package com.agroneo.app.pages;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,26 +42,12 @@ public class PagesView extends LinearLayout {
 
     }
 
+    public void intent(String url) {
 
-    public void load(String url) {
-
-        loading(true);
-        content.scrollTo(0, 0);
-        new ApiAgroneo(getContext()) {
-
-            @Override
-            public void result(Json response) {
-                setPage(response);
-                loading(false);
-            }
-
-            @Override
-            public void error() {
-                loading(false);
-            }
-        }.doGet(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("agroneoDocs://" + url));
+        getContext().startActivity(intent);
     }
-
 
     public void setPage(Json page) {
         pageparser.parse(page);
@@ -69,6 +57,8 @@ public class PagesView extends LinearLayout {
 
 
     public void loading(boolean load) {
+
+        content.scrollTo(0, 0);
         if (load) {
             content.setVisibility(ProgressBar.GONE);
             loading.setVisibility(ProgressBar.VISIBLE);
@@ -96,7 +86,8 @@ public class PagesView extends LinearLayout {
             item.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    load(url);
+
+                    intent(url);
                 }
             });
             item.setClickable(true);
@@ -123,7 +114,7 @@ public class PagesView extends LinearLayout {
             text.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    load(url);
+                    intent(url);
                 }
             });
             text.setClickable(true);

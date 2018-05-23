@@ -1,6 +1,7 @@
 package com.agroneo.app;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -24,8 +25,7 @@ import com.agroneo.app.ui.ActionBarCtl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GrowActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class GrowActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private final List<String> history = new ArrayList<>();
     private GaiaFragment gaia;
@@ -47,8 +47,7 @@ public class GrowActivity extends AppCompatActivity
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_open, R.string.navigation_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_open, R.string.navigation_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -70,6 +69,7 @@ public class GrowActivity extends AppCompatActivity
         if (intent.getData() != null) {
             if (intent.getData().getScheme().equals("agroneoDocs")) {
                 documents.loadPage(intent.getData().getPath());
+                history.add(intent.getData().toString());
             }
         }
     }
@@ -143,6 +143,13 @@ public class GrowActivity extends AppCompatActivity
                 return;
             }
             String last = history.get(history.size() - 1);
+            if (last.startsWith("agroneo")) {
+                Uri urilast = Uri.parse(last);
+                if (urilast.getScheme().equals("agroneoDocs")) {
+                    documents.loadPage(urilast.getPath());
+                    return;
+                }
+            }
             FragmentManager manager = getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
             List<Fragment> frags = manager.getFragments();
