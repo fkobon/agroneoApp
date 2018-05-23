@@ -28,8 +28,6 @@ public class PagesParser {
 
     public PagesParser(LinearLayout container) {
         this.container = container;
-
-
     }
 
 
