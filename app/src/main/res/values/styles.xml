@@ -54,5 +54,11 @@
         <item name="android:background">@drawable/avatar_img_shadow</item>
     </style>
 
+    <style name="NavigationViewItemStyle">
+
+        <item name="listPreferredItemPaddingLeft">10dp</item>
+        <item name="listPreferredItemPaddingRight">0dp</item>
+    </style>
+
 
 </resources>

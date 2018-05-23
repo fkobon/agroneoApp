@@ -52,6 +52,7 @@ public class GrowActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarCtl actionbarCtl = new ActionBarCtl(getSupportActionBar());
 
