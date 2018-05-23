@@ -3,7 +3,6 @@ package com.agroneo.app.gaia;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 

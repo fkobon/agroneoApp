@@ -31,7 +31,7 @@ public class ThreadsDb {
     public void insertDiscuss(List<Json> threadsJson, String next) {
         AppDatabase db = AppDatabase.getAppDatabase(context);
         ThreadsDao td = db.threadsDao();
-        if (threadsJson==null) {
+        if (threadsJson == null) {
             return;
         }
         for (Json threadJson : threadsJson) {

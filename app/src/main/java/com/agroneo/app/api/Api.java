@@ -19,6 +19,9 @@ public abstract class Api implements ApiResponse {
     private ApiGet apiget;
 
 
+    private Api() {
+    }
+
     public static Api build(final ApiResponse apires) {
         return new Api() {
             @Override
@@ -31,9 +34,6 @@ public abstract class Api implements ApiResponse {
                 apires.apiError();
             }
         };
-    }
-
-    private Api() {
     }
 
     public void doGet(String url) {
