@@ -2,12 +2,15 @@ package com.agroneo.app.utils;
 
 import android.util.Log;
 
+import com.agroneo.app.BuildConfig;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 public class Fx {
     public static final String ISO_DATE = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    public static boolean IS_DEBUG = BuildConfig.DEBUG;
 
     public static void log(Object msg) {
         try {
@@ -32,4 +35,5 @@ public class Fx {
         }
         return joined;
     }
+
 }

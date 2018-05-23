@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -12,13 +11,20 @@ import com.squareup.picasso.Transformation;
 
 public class ImageLoader {
 
-    public static void setRound(String url, View imageView, int dpRessource) {
-        Picasso.get()
-                .load(url)
-                .resizeDimen(dpRessource, dpRessource)
-                .transform(new CircleTransform())
-                .into(ImageView.class.cast(imageView));
+    public static void setRound(String url, ImageView imageView, int dpRessource) {
+        Picasso pic = Picasso.get();
+        if (Fx.IS_DEBUG) {
+            Picasso.get().invalidate(url);
+        }
+        pic.load(url).resizeDimen(dpRessource, dpRessource).transform(new CircleTransform()).into(imageView);
+    }
 
+    public static void setImage(String url, ImageView imageView) {
+        Picasso pic = Picasso.get();
+        if (Fx.IS_DEBUG) {
+            pic.invalidate(url);
+        }
+        pic.load(url).into(imageView);
     }
 
     public static class CircleTransform implements Transformation {

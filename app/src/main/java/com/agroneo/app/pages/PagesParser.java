@@ -1,21 +1,19 @@
 package com.agroneo.app.pages;
 
-import android.graphics.drawable.Drawable;
-import android.text.Editable;
 import android.text.Html;
-import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.agroneo.app.R;
+import com.agroneo.app.utils.ImageLoader;
 import com.agroneo.app.utils.Json;
+import com.agroneo.app.utils.views.RatioImageView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Tag;
-import org.xml.sax.XMLReader;
 
 import java.io.StringWriter;
 import java.util.Iterator;
@@ -56,6 +54,12 @@ public class PagesParser {
             container.addView(intro);
         }
 
+        if (page.getString("logo") != null) {
+            RatioImageView logo = new RatioImageView(container.getContext());
+            ImageLoader.setImage(page.getString("logo") + "@360x240.jpg", logo);
+            container.addView(logo);
+        }
+
         if (!page.getString("text", "").equals("")) {
 
             TextView textbox = new TextView(container.getContext());
@@ -67,8 +71,7 @@ public class PagesParser {
             text = parseLinks(text, page.getListJson("links"));
             text = parsePhotos(text);
 
-            Spanned htmlText = Html.fromHtml(text, new OImageHandler(), new OTagHandler());
-            textbox.setText(htmlText);
+            textbox.setText(Html.fromHtml(text));
 
             textbox.setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -77,22 +80,6 @@ public class PagesParser {
         }
     }
 
-
-    private class OImageHandler implements Html.ImageGetter {
-
-        @Override
-        public Drawable getDrawable(String source) {
-            return null;
-        }
-    }
-
-    private class OTagHandler implements Html.TagHandler {
-
-        @Override
-        public void handleTag(boolean opening, String tag, Editable output, XMLReader xmlReader) {
-
-        }
-    }
 
     private String insertPub(String text, String pub) {
         if (text == null) {
