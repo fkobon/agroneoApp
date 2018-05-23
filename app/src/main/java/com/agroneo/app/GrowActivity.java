@@ -62,6 +62,7 @@ public class GrowActivity extends AppCompatActivity implements NavigationView.On
         documents = new PagesFragment().setActionbar(actionbarCtl);
 
         setFragment(documents);
+        history.add("agroneo:///documents");
 
     }
 

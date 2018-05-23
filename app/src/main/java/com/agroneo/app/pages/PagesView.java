@@ -39,10 +39,10 @@ public class PagesView extends LinearLayout {
 
         this.childrens = findViewById(R.id.childrens);
 
+
     }
 
     public void intent(String url) {
-
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("agroneo://" + url));
         getContext().startActivity(intent);
@@ -85,7 +85,6 @@ public class PagesView extends LinearLayout {
             item.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     intent(url);
                 }
             });
