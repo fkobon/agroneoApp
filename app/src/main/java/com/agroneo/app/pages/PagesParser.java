@@ -236,7 +236,7 @@ public class PagesParser {
                     if ((title == null) || (title == "")) {
                         title = linked_page.getString("title");
                     }
-                    text = text.replace(matcher.group(), "<a href=\"agroneoDocs:/" + linked_page.getString("url") + "\">" + matcher.group(2) + "</a>");
+                    text = text.replace(matcher.group(), "<a href=\"agroneo:/" + linked_page.getString("url") + "\">" + matcher.group(2) + "</a>");
                 } else {
                     text = text.replace(matcher.group(), matcher.group(2));
                 }

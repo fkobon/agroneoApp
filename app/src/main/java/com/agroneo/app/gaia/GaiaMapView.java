@@ -8,7 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
 import com.agroneo.app.R;
-import com.agroneo.app.api.ApiAgroneo;
+import com.agroneo.app.api.Api;
+import com.agroneo.app.api.ApiResponse;
 import com.agroneo.app.ui.ActionBarCtl;
 import com.agroneo.app.utils.Json;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -32,13 +33,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GaiaMapView extends MapView implements OnMapReadyCallback, OnMapClickListener,
+public class GaiaMapView extends MapView implements ApiResponse, OnMapReadyCallback, OnMapClickListener,
         OnCameraMoveStartedListener, OnCameraMoveListener, OnCameraMoveCanceledListener, OnCameraIdleListener {
 
     private final Map<String, Marker> markers = new HashMap<>();
     private GoogleMap map = null;
     private ActionBarCtl actionbar = null;
-    private AsyncTask<String, String, Json> task = null;
+    private Api api;
 
     public GaiaMapView(Context context, Bundle savedInstanceState) {
         super(context);
@@ -62,8 +63,8 @@ public class GaiaMapView extends MapView implements OnMapReadyCallback, OnMapCli
 
     @Override
     public void onCameraIdle() {
-        if (task != null && !task.isCancelled() && task.getStatus() != AsyncTask.Status.FINISHED) {
-            task.cancel(true);
+        if (api != null && !api.isCancelled() && api.getStatus() != AsyncTask.Status.FINISHED) {
+            api.cancel(true);
         }
         LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
         Json data = new Json("action", "specimens");
@@ -75,18 +76,19 @@ public class GaiaMapView extends MapView implements OnMapReadyCallback, OnMapCli
                 .put("east", bounds.northeast.longitude)
         );
 
-        task = new ApiAgroneo(getContext()) {
-            @Override
-            public void result(Json response) {
-                viewSpecimens(response);
-            }
-        }.doPost("gaia", data);
+        api = Api.build(this);
+        api.doPost("gaia", data);
 
         actionbar.show(1);
     }
 
+    @Override
+    public void apiError() {
 
-    private void viewSpecimens(Json response) {
+    }
+
+    @Override
+    public void apiResult(Json response) {
 
         if (response == null) {
             return;
@@ -157,6 +159,7 @@ public class GaiaMapView extends MapView implements OnMapReadyCallback, OnMapCli
             marker.remove();
         }
     }
+
 
     @Override
     public void onCameraMoveStarted(int reason) {

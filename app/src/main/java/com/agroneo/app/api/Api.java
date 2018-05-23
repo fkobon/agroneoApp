@@ -1,9 +1,7 @@
 package com.agroneo.app.api;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
-import com.agroneo.app.R;
 import com.agroneo.app.utils.Json;
 
 import java.io.BufferedReader;
@@ -14,19 +12,31 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public abstract class ApiAgroneo extends AsyncTask<String, String, Json> implements ApiImpl {
-    private String api;
+public abstract class Api extends AsyncTask<String, String, Json> implements ApiResponse {
+    private String api = "https://api.agroneo.com";
 
-    public ApiAgroneo(Context context) {
-        api = context.getString(R.string.api_url);
+    public static Api build(final ApiResponse api) {
+
+        return new Api() {
+
+            @Override
+            public void apiResult(Json response) {
+                api.apiResult(response);
+            }
+
+            @Override
+            public void apiError() {
+                api.apiError();
+            }
+        };
     }
 
-    public AsyncTask<String, String, Json> doGet(String url) {
-        return execute(url, "GET");
+    public Api doGet(String url) {
+        return (Api) execute(url, "GET");
     }
 
-    public AsyncTask<String, String, Json> doPost(String url, Json data) {
-        return execute(url, "POST", data.toString());
+    public Api doPost(String url, Json data) {
+        return (Api) execute(url, "POST", data.toString());
     }
 
     @Override
@@ -88,18 +98,19 @@ public abstract class ApiAgroneo extends AsyncTask<String, String, Json> impleme
     @Override
     protected void onPostExecute(Json response) {
         if (response != null) {
-            result(response);
+            apiResult(response);
         } else {
-            error();
+            apiError();
         }
     }
 
     @Override
-    public void error() {
+    public void apiError() {
     }
 
     @Override
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
     }
+
 }

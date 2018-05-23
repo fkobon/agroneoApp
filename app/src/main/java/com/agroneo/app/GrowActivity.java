@@ -67,7 +67,7 @@ public class GrowActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void startActivity(Intent intent, @Nullable Bundle options) {
         if (intent.getData() != null) {
-            if (intent.getData().getScheme().equals("agroneoDocs")) {
+            if (intent.getData().getScheme().equals("agroneo")) {
                 documents.loadPage(intent.getData().getPath());
                 history.add(intent.getData().toString());
             }
@@ -145,7 +145,7 @@ public class GrowActivity extends AppCompatActivity implements NavigationView.On
             String last = history.get(history.size() - 1);
             if (last.startsWith("agroneo")) {
                 Uri urilast = Uri.parse(last);
-                if (urilast.getScheme().equals("agroneoDocs")) {
+                if (urilast.getScheme().equals("agroneo")) {
                     documents.loadPage(urilast.getPath());
                     return;
                 }

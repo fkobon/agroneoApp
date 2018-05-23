@@ -13,7 +13,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.agroneo.app.R;
-import com.agroneo.app.api.ApiAgroneo;
 import com.agroneo.app.utils.Json;
 
 import java.util.List;
@@ -45,7 +44,7 @@ public class PagesView extends LinearLayout {
     public void intent(String url) {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("agroneoDocs://" + url));
+        intent.setData(Uri.parse("agroneo://" + url));
         getContext().startActivity(intent);
     }
 

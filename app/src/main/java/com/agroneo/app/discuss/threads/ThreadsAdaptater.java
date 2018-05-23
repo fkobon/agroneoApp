@@ -12,7 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.agroneo.app.R;
-import com.agroneo.app.api.ApiAgroneo;
+import com.agroneo.app.api.Api;
+import com.agroneo.app.api.ApiResponse;
 import com.agroneo.app.utils.ImageLoader;
 import com.agroneo.app.utils.Json;
 
@@ -49,12 +50,12 @@ public class ThreadsAdaptater extends CursorAdapter {
         }
     }
 
-    private class Populator {
+    private class Populator implements ApiResponse {
 
         private Cursor cursor;
         private ThreadsDb db;
         private String parent;
-        private ApiAgroneo api;
+        private Api api;
 
         public Populator(String parent) {
             this.parent = parent;
@@ -81,21 +82,26 @@ public class ThreadsAdaptater extends CursorAdapter {
             if (api != null) {
                 api.cancel(true);
             }
-            api = new ApiAgroneo(context) {
-                @Override
-                public void result(Json response) {
-                    Json posts = response.getJson("posts");
-                    String paging = posts.getJson("paging").getString("next");
-                    if (posts != null) {
-                        db.insertDiscuss(posts.getListJson("result"), paging);
-                    }
-                    reloadCursor();
-
-                    listView.removeFooterView(loading);
-                }
-            };
+            api = Api.build(this);
             api.doGet(url);
             listView.addFooterView(loading);
+        }
+
+        @Override
+        public void apiResult(Json response) {
+            Json posts = response.getJson("posts");
+            String paging = posts.getJson("paging").getString("next");
+            if (posts != null) {
+                db.insertDiscuss(posts.getListJson("apiResult"), paging);
+            }
+            reloadCursor();
+
+            listView.removeFooterView(loading);
+        }
+
+        @Override
+        public void apiError() {
+
         }
 
         private void reloadCursor() {
@@ -104,4 +110,5 @@ public class ThreadsAdaptater extends CursorAdapter {
         }
 
     }
+
 }

@@ -6,14 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.agroneo.app.api.ApiAgroneo;
+import com.agroneo.app.api.Api;
+import com.agroneo.app.api.ApiResponse;
 import com.agroneo.app.ui.ActionBarCtl;
 import com.agroneo.app.utils.Json;
 
-public class PagesFragment extends Fragment {
+public class PagesFragment extends Fragment implements ApiResponse {
 
     private ActionBarCtl actionbar;
     private PagesView page;
+    private Api api;
 
     public PagesFragment setActionbar(ActionBarCtl actionbar) {
         this.actionbar = actionbar;
@@ -23,28 +25,25 @@ public class PagesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         page = new PagesView(getContext(), container);
-        loadPage("/plantes/legumes/tubercules/pomme-de-terre/alternariose-de-la-pomme-de-terre");
+        loadPage("/documents");
 
         return page;
     }
 
     public void loadPage(String url) {
-
         page.loading(true);
-
-        new ApiAgroneo(getContext()) {
-
-            @Override
-            public void result(Json response) {
-                page.setPage(response);
-                page.loading(false);
-            }
-
-            @Override
-            public void error() {
-                page.loading(false);
-            }
-        }.doGet(url);
+        api = Api.build(this);
+        api.doGet(url);
     }
 
+    @Override
+    public void apiResult(Json response) {
+        page.setPage(response);
+        page.loading(false);
+    }
+
+    @Override
+    public void apiError() {
+        page.loading(false);
+    }
 }
