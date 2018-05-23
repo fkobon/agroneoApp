@@ -55,7 +55,7 @@ public class ThreadsAdaptater extends CursorAdapter {
         private Cursor cursor;
         private ThreadsDb db;
         private String parent;
-        private Api api;
+        private Api api = Api.build(this);
 
         public Populator(String parent) {
             this.parent = parent;
@@ -79,10 +79,7 @@ public class ThreadsAdaptater extends CursorAdapter {
 
 
             listView.removeFooterView(loading);
-            if (api != null) {
-                api.cancel(true);
-            }
-            api = Api.build(this);
+
             api.doGet(url);
             listView.addFooterView(loading);
         }

@@ -38,7 +38,7 @@ public class GaiaMapView extends MapView implements ApiResponse, OnMapReadyCallb
     private final Map<String, Marker> markers = new HashMap<>();
     private GoogleMap map = null;
     private ActionBarCtl actionbar = null;
-    private Api api;
+    private Api api = Api.build(this);
 
     public GaiaMapView(Context context, Bundle savedInstanceState) {
         super(context);
@@ -62,15 +62,11 @@ public class GaiaMapView extends MapView implements ApiResponse, OnMapReadyCallb
 
     @Override
     public void onCameraIdle() {
-        if (api != null && !api.isCancelled() && api.getStatus() != AsyncTask.Status.FINISHED) {
-            api.cancel(true);
-        }
         LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
         Json data = new Json("action", "specimens");
         data.put("zoom", map.getCameraPosition().zoom);
         data.put("bounds", new Json().put("south", bounds.southwest.latitude).put("west", bounds.southwest.longitude).put("north", bounds.northeast.latitude).put("east", bounds.northeast.longitude));
 
-        api = Api.build(this);
         api.doPost("gaia", data);
         actionbar.show(1);
     }

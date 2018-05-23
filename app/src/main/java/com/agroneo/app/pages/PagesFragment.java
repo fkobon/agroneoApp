@@ -15,7 +15,7 @@ public class PagesFragment extends Fragment implements ApiResponse {
 
     private ActionBarCtl actionbar;
     private PagesView page;
-    private Api api;
+    private Api api = Api.build(this);
 
     public PagesFragment setActionbar(ActionBarCtl actionbar) {
         this.actionbar = actionbar;
@@ -32,7 +32,6 @@ public class PagesFragment extends Fragment implements ApiResponse {
 
     public void loadPage(String url) {
         page.loading(true);
-        api = Api.build(this);
         api.doGet(url);
     }
 

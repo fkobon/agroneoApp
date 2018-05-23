@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Fx {
+    public static String API_URL = "https://api.agroneo.com";
     public static final String ISO_DATE = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     public static boolean IS_DEBUG = BuildConfig.DEBUG;
 
