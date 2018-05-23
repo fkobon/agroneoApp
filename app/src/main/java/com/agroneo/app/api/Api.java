@@ -31,12 +31,12 @@ public abstract class Api extends AsyncTask<String, String, Json> implements Api
         };
     }
 
-    public Api doGet(String url) {
-        return (Api) execute(url, "GET");
+    public void doGet(String url) {
+        execute(url, "GET");
     }
 
-    public Api doPost(String url, Json data) {
-        return (Api) execute(url, "POST", data.toString());
+    public void doPost(String url, Json data) {
+        execute(url, "POST", data.toString());
     }
 
     @Override
