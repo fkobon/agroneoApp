@@ -104,13 +104,15 @@ public abstract class Api extends AsyncTask<String, String, Json> implements Api
         }
     }
 
-    @Override
-    public void apiError() {
-    }
 
     @Override
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
+    }
+
+
+    @Override
+    public void apiError() {
     }
 
 }

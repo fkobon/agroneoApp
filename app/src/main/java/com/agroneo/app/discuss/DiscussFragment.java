@@ -21,8 +21,7 @@ public class DiscussFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         ListView listView = (ListView) inflater.inflate(R.layout.discuss, container, false);
         ProgressBar loading = (ProgressBar) inflater.inflate(R.layout.progress, listView, false);

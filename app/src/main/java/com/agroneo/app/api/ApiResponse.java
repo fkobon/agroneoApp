@@ -6,5 +6,4 @@ public interface ApiResponse {
     void apiResult(Json response);
 
     void apiError();
-
 }

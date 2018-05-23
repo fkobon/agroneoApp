@@ -16,10 +16,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public static AppDatabase getAppDatabase(Context context) {
         if (INSTANCE == null) {
-            INSTANCE = Room.databaseBuilder(context, AppDatabase.class, "agroneo")
-                    .fallbackToDestructiveMigration()
-                    .allowMainThreadQueries()
-                    .build();
+            INSTANCE = Room.databaseBuilder(context, AppDatabase.class, "agroneo").fallbackToDestructiveMigration().allowMainThreadQueries().build();
         }
         return INSTANCE;
     }

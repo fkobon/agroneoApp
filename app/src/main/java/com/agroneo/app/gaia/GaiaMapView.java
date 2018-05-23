@@ -33,8 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GaiaMapView extends MapView implements ApiResponse, OnMapReadyCallback, OnMapClickListener,
-        OnCameraMoveStartedListener, OnCameraMoveListener, OnCameraMoveCanceledListener, OnCameraIdleListener {
+public class GaiaMapView extends MapView implements ApiResponse, OnMapReadyCallback, OnMapClickListener, OnCameraMoveStartedListener, OnCameraMoveListener, OnCameraMoveCanceledListener, OnCameraIdleListener {
 
     private final Map<String, Marker> markers = new HashMap<>();
     private GoogleMap map = null;
@@ -69,16 +68,10 @@ public class GaiaMapView extends MapView implements ApiResponse, OnMapReadyCallb
         LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
         Json data = new Json("action", "specimens");
         data.put("zoom", map.getCameraPosition().zoom);
-        data.put("bounds", new Json()
-                .put("south", bounds.southwest.latitude)
-                .put("west", bounds.southwest.longitude)
-                .put("north", bounds.northeast.latitude)
-                .put("east", bounds.northeast.longitude)
-        );
+        data.put("bounds", new Json().put("south", bounds.southwest.latitude).put("west", bounds.southwest.longitude).put("north", bounds.northeast.latitude).put("east", bounds.northeast.longitude));
 
         api = Api.build(this);
         api.doPost("gaia", data);
-
         actionbar.show(1);
     }
 
@@ -101,8 +94,7 @@ public class GaiaMapView extends MapView implements ApiResponse, OnMapReadyCallb
                     Json location = specimen.getJson("location");
                     List<Double> coordinates = location.getList("coordinates", Double.class);
 
-                    MarkerOptions marker = new MarkerOptions().position(new LatLng(coordinates.get(1), coordinates.get(0)))
-                            .title(specimen.getJson("species").getString("name")).snippet(specimen.getString("desc"));
+                    MarkerOptions marker = new MarkerOptions().position(new LatLng(coordinates.get(1), coordinates.get(0))).title(specimen.getJson("species").getString("name")).snippet(specimen.getString("desc"));
                     marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
 
                     marker.zIndex(3);
@@ -196,8 +188,7 @@ public class GaiaMapView extends MapView implements ApiResponse, OnMapReadyCallb
     }
 
     private void enableLocation() {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
         }
 

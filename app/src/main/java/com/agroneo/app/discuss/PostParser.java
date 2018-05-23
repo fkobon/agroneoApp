@@ -76,16 +76,7 @@ public class PostParser {
             if (matcher.group(2) != null && !matcher.group(2).replaceAll("([ ]+)", "").equals("")) {
                 info += "<figcaption>" + matcher.group(2) + "</figcaption>";
             }
-            text = text.replace(matcher.group(),
-                    "<figure class=\"img\">" +
-                            "<a href=\"/files/" + key + "\">" +
-                            "<picture>" +
-                            "<source srcset=\"https://agroneo.net/files/" + key + "@325\" media=\"(min-width: 0px) and (max-width: 361px)\">" +
-                            "<img src=\"/files/" + key + "@500\" />" +
-                            info +
-                            "</picture>" +
-                            "</a>" +
-                            "</figure>");
+            text = text.replace(matcher.group(), "<figure class=\"img\">" + "<a href=\"/files/" + key + "\">" + "<picture>" + "<source srcset=\"https://agroneo.net/files/" + key + "@325\" media=\"(min-width: 0px) and (max-width: 361px)\">" + "<img src=\"/files/" + key + "@500\" />" + info + "</picture>" + "</a>" + "</figure>");
         }
 
         docs.clear();
@@ -99,19 +90,13 @@ public class PostParser {
 
     private static String video(String text) {
         Map<String, Pattern> tubes = new HashMap<>();
-        tubes.put("https://www.youtube.com/embed/",
-                Pattern.compile("(?:https?://)?(?:youtu\\.be/|(?:www\\.)?youtube\\.com/(?:watch(?:\\.php)?\\?.*v=|v/|embed/))([a-zA-Z0-9\\-_]+)"));
-        tubes.put("https://www.dailymotion.com/embed/video/",
-                Pattern.compile("(?:https?://)(?:www.)?(?:dailymotion.com\\/(?:video|hub)|dai.ly)/([^_ <]+)"));
-        tubes.put("https://player.vimeo.com/video/",
-                Pattern.compile("(?:https?://)(?:www\\.|player\\.)?vimeo.com/([0-9]+)"));
-        tubes.put("https://ok.ru/videoembed/",
-                Pattern.compile("(?:https?://)(?:m\\.)?ok.ru/(?:video/)?([0-9]+)"));
+        tubes.put("https://www.youtube.com/embed/", Pattern.compile("(?:https?://)?(?:youtu\\.be/|(?:www\\.)?youtube\\.com/(?:watch(?:\\.php)?\\?.*v=|v/|embed/))([a-zA-Z0-9\\-_]+)"));
+        tubes.put("https://www.dailymotion.com/embed/video/", Pattern.compile("(?:https?://)(?:www.)?(?:dailymotion.com\\/(?:video|hub)|dai.ly)/([^_ <]+)"));
+        tubes.put("https://player.vimeo.com/video/", Pattern.compile("(?:https?://)(?:www\\.|player\\.)?vimeo.com/([0-9]+)"));
+        tubes.put("https://ok.ru/videoembed/", Pattern.compile("(?:https?://)(?:m\\.)?ok.ru/(?:video/)?([0-9]+)"));
 
         for (Map.Entry<String, Pattern> item : tubes.entrySet()) {
-            text = text.replaceAll(item.getValue().pattern(),
-                    "<iframe class=\"video\" width=\"560\" height=\"315\" src=\"" + item.getKey() + "$1\" frameborder=\"0\"  gesture=\"media\" allow=\"encrypted-media\" referrerpolicy=\"no-referrer\" allowfullscreen></iframe>"
-            );
+            text = text.replaceAll(item.getValue().pattern(), "<iframe class=\"video\" width=\"560\" height=\"315\" src=\"" + item.getKey() + "$1\" frameborder=\"0\"  gesture=\"media\" allow=\"encrypted-media\" referrerpolicy=\"no-referrer\" allowfullscreen></iframe>");
         }
         return text;
     }
