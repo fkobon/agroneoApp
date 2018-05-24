@@ -61,10 +61,7 @@ public class GrowActivity extends AppCompatActivity implements NavigationView.On
         profile = new ProfileFragment().setActionbar(actionbarCtl);
         documents = new PagesFragment().setActionbar(actionbarCtl);
 
-        String start = "/techniques/machines-agricoles/robots";
-        documents.loadPage(start);
-        setFragment(documents);
-        history.add("agroneo://" + start);
+        setFragment(discuss);
 
     }
 

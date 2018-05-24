@@ -48,7 +48,7 @@ public class PagesParser {
             TextView intro = new TextView(container.getContext());
             intro.setTextAppearance(container.getContext(), R.style.mediumtext);
 
-            intro.setText(page.getString("intro"));
+            intro.setText(Html.fromHtml(page.getString("intro")));
             container.addView(intro);
         }
 

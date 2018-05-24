@@ -89,7 +89,7 @@ public class ThreadsAdaptater extends CursorAdapter {
             Json posts = response.getJson("posts");
             String paging = posts.getJson("paging").getString("next");
             if (posts != null) {
-                db.insertDiscuss(posts.getListJson("apiResult"), paging);
+                db.insertDiscuss(posts.getListJson("result"), paging);
             }
             reloadCursor();
 

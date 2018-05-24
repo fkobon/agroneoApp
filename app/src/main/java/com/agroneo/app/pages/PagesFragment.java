@@ -26,6 +26,7 @@ public class PagesFragment extends Fragment implements ApiResponse {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         page = new PagesView(getContext(), container);
 
+        loadPage("/documents");
         return page;
     }
 
