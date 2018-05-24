@@ -34,7 +34,7 @@
         <item name="android:textColorLink">@color/green</item>
     </style>
 
-    <style name="textnav">
+    <style name="subnav">
         <item name="android:textSize">17dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:clickable">true</item>
@@ -42,8 +42,8 @@
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingLeft">6dp</item>
         <item name="android:paddingRight">6dp</item>
+        <item name="android:layout_marginTop">6dp</item>
         <item name="android:background">@drawable/border</item>
-        <item name="android:radius">20dp</item>
     </style>
 
     <style name="avatar">

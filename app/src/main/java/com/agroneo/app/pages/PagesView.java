@@ -13,7 +13,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.agroneo.app.R;
+import com.agroneo.app.utils.ImageLoader;
 import com.agroneo.app.utils.Json;
+import com.agroneo.app.utils.views.RatioImageView;
+import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.List;
 
@@ -107,9 +110,20 @@ public class PagesView extends LinearLayout {
         }
 
         for (Json children : childrensList) {
-            View item = LayoutInflater.from(getContext()).inflate(R.layout.pages_item, this, false);
+            FlexboxLayout item = (FlexboxLayout) LayoutInflater.from(getContext()).inflate(R.layout.pages_item, this, false);
             TextView text = item.findViewById(R.id.title);
+
+            if (children.getString("logo") != null) {
+                RatioImageView logo = new RatioImageView(getContext(), 24F / 36F);
+
+                logo.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                ImageLoader.setImage(children.getString("logo") + "@360x240.jpg", logo);
+                logo.setMaxHeight(text.getHeight());
+                item.addView(logo);
+            }
+
             text.setText(children.getString("title"));
+
             final String url = children.getString("url");
             text.setOnClickListener(new OnClickListener() {
                 @Override
