@@ -61,18 +61,24 @@ public class GrowActivity extends AppCompatActivity implements NavigationView.On
         profile = new ProfileFragment().setActionbar(actionbarCtl);
         documents = new PagesFragment().setActionbar(actionbarCtl);
 
-        documents.loadPage("/techniques/machines-agricoles/cuma");
+        String start = "/techniques/machines-agricoles/robots";
+        documents.loadPage(start);
         setFragment(documents);
-        history.add("agroneo:///techniques/machines-agricoles/cuma");
+        history.add("agroneo://" + start);
 
     }
 
     @Override
     public void startActivity(Intent intent, @Nullable Bundle options) {
         if (intent.getData() != null) {
-            if (intent.getData().getScheme().equals("agroneo")) {
+            String sheme = intent.getData().getScheme();
+            if (sheme.startsWith("http")) {
+                getBaseContext().startActivity(intent);
+
+            } else if (sheme.equals("agroneo")) {
                 documents.loadPage(intent.getData().getPath());
                 history.add(intent.getData().toString());
+                return;
             }
         }
     }
