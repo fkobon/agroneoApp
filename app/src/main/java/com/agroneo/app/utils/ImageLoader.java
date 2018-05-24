@@ -17,7 +17,7 @@ public class ImageLoader {
         if (Fx.IS_DEBUG) {
             Picasso.get().invalidate(url);
         }
-     pic.load(url).placeholder(R.drawable.loading_anim).error(R.drawable.logo).resizeDimen(dpRessource, dpRessource).transform(new CircleTransform()).into(imageView);
+        pic.load(url).placeholder(R.drawable.loading_anim).error(R.drawable.logo).resizeDimen(dpRessource, dpRessource).transform(new CircleTransform()).into(imageView);
     }
 
     public static void setImage(String url, ImageView imageView) {
@@ -25,7 +25,7 @@ public class ImageLoader {
         if (Fx.IS_DEBUG) {
             pic.invalidate(url);
         }
-      pic.load(url).placeholder(R.drawable.loading_anim).error(R.drawable.logo).into(imageView);
+        pic.load(url).placeholder(R.drawable.loading_anim).error(R.drawable.logo).into(imageView);
     }
 
     public static class CircleTransform implements Transformation {
