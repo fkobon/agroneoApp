@@ -9,8 +9,6 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.TypeConverter;
-import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
@@ -48,7 +46,8 @@ public class PostsDb {
             postDb._id = postJson.getId();
             postDb.url = postJson.getString("url");
             postDb.date = postJson.parseDate("date").getTime();
-            postDb.update = postJson.parseDate("update").getTime();
+
+            postDb.update = postJson.containsKey("update") ? postJson.parseDate("update").getTime() : postJson.parseDate("date").getTime();
             postDb.changes = postJson.getInteger("changes");
             postDb.text = postJson.getString("text");
 
@@ -72,9 +71,9 @@ public class PostsDb {
                 postDb.comments.add(com);
             }
 
-
             td.insertAll(postDb);
         }
+
         db.destroyInstance();
     }
 
