@@ -25,13 +25,14 @@ public class PagesFragment extends Fragment implements ApiResponse {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         page = new PagesView(getContext(), container);
-        loadPage("/documents");
 
         return page;
     }
 
     public void loadPage(String url) {
-        page.loading(true);
+        if (page!=null) {
+            page.loading(true);
+        }
         api.doGet(url);
     }
 

@@ -53,9 +53,9 @@ public class PagesParser {
         }
 
         if (page.getString("logo") != null) {
-            RatioImageView logo = new RatioImageView(container.getContext());
-            ImageLoader.setImage(page.getString("logo") + "@360x240.jpg", logo);
+            RatioImageView logo = new RatioImageView(container.getContext(),240F/360F);
             container.addView(logo);
+            ImageLoader.setImage(page.getString("logo") + "@360x240.jpg", logo);
         }
 
         if (!page.getString("text", "").equals("")) {

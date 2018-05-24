@@ -31,13 +31,15 @@ public class PagesView extends LinearLayout {
 
         addView(LayoutInflater.from(getContext()).inflate(R.layout.pages, container, false));
 
-        this.loading = findViewById(R.id.loading);
         this.content = findViewById(R.id.content);
+        this.loading = findViewById(R.id.loading);
         this.breadcrumb = findViewById(R.id.breadcrumb);
 
         pageparser = new PagesParser((LinearLayout) findViewById(R.id.text));
 
         this.childrens = findViewById(R.id.childrens);
+
+        loading(true);
 
 
     }

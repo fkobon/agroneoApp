@@ -61,8 +61,9 @@ public class GrowActivity extends AppCompatActivity implements NavigationView.On
         profile = new ProfileFragment().setActionbar(actionbarCtl);
         documents = new PagesFragment().setActionbar(actionbarCtl);
 
+        documents.loadPage("/techniques/machines-agricoles/cuma");
         setFragment(documents);
-        history.add("agroneo:///documents");
+        history.add("agroneo:///techniques/machines-agricoles/cuma");
 
     }
 

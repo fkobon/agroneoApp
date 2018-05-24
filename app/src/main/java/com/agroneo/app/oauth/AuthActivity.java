@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.agroneo.app.R;
-import com.agroneo.app.utils.HR;
+import com.agroneo.app.utils.views.HR;
 
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
 

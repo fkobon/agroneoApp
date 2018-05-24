@@ -1,4 +1,4 @@
-package com.agroneo.app.utils;
+package com.agroneo.app.utils.views;
 
 import android.content.Context;
 import android.graphics.Color;
