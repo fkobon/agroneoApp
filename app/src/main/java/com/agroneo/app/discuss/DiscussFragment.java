@@ -30,7 +30,7 @@ public class DiscussFragment extends Fragment {
         listView = (ListView) inflater.inflate(R.layout.discuss, container, false);
         loading = (ProgressBar) inflater.inflate(R.layout.progress, listView, false);
 
-        adaptater = new ThreadsAdaptater(getContext(), listView, loading, "");
+        adaptater = new ThreadsAdaptater(getContext(), listView, loading, "/forum");
         listView.setAdapter(adaptater);
 
         return listView;

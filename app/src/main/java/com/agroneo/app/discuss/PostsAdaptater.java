@@ -3,15 +3,23 @@ package com.agroneo.app.discuss;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.agroneo.app.R;
 import com.agroneo.app.api.Api;
 import com.agroneo.app.api.ApiResponse;
+import com.agroneo.app.discuss.posts.PostsDb;
 import com.agroneo.app.discuss.threads.ThreadsDb;
+import com.agroneo.app.utils.ImageLoader;
 import com.agroneo.app.utils.Json;
+
+import java.util.List;
 
 public class PostsAdaptater extends CursorAdapter {
 
@@ -33,29 +41,32 @@ public class PostsAdaptater extends CursorAdapter {
         super(context, c, autoRequery);
     }
 
+
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return null;
+        return LayoutInflater.from(context).inflate(R.layout.discuss_post_item, parent, false);
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        ((TextView) view.findViewById(R.id.content)).setText(cursor.getString(cursor.getColumnIndex("text")));
+        ImageLoader.setRound(cursor.getString(cursor.getColumnIndex("user_avatar")) + "@200x200", (ImageView) view.findViewById(R.id.avatar), R.dimen.avatarDpw);
 
     }
 
     private class Populator implements ApiResponse {
 
         private Cursor cursor;
-        private ThreadsDb db;
-        private String parent;
+        private PostsDb db;
         private Api api = Api.build(this);
+        String url;
 
-        public Populator(String parent) {
-            this.parent = parent;
-            this.db = new ThreadsDb(context);
-            cursor = db.getDiscuss(parent);
+        public Populator(String url) {
+            this.url = url;
+            this.db = new PostsDb(context);
+            cursor = db.getPosts(url);
             if (cursor == null || cursor.getPosition() < 0) {
-                update(null);
+                update(url);
             } else {
                 PostsAdaptater.this.changeCursor(cursor);
             }
@@ -63,26 +74,17 @@ public class PostsAdaptater extends CursorAdapter {
         }
 
 
-        public void update(String next) {
-
-            String url = "forum" + parent;
-            if (next != null) {
-                url += "?paging=" + next;
-            }
-
-
+        public void update(String url) {
             listView.removeFooterView(loading);
-
             api.doGet(url);
             listView.addFooterView(loading);
         }
 
         @Override
         public void apiResult(Json response) {
-            Json posts = response.getJson("posts");
-            String paging = posts.getJson("paging").getString("next");
+            List<Json> posts = response.getListJson("posts");
             if (posts != null) {
-                db.insertDiscuss(posts.getListJson("result"), paging);
+                db.insertPosts(posts);
             }
             reloadCursor();
 
@@ -95,7 +97,7 @@ public class PostsAdaptater extends CursorAdapter {
         }
 
         private void reloadCursor() {
-            PostsAdaptater.this.changeCursor(db.getDiscuss(parent));
+            PostsAdaptater.this.changeCursor(db.getPosts(url));
 
         }
 

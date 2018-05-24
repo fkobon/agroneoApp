@@ -37,7 +37,7 @@ public class ThreadsAdaptater extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.discuss_item, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.discuss_thread_item, parent, false);
     }
 
     @Override
@@ -71,13 +71,13 @@ public class ThreadsAdaptater extends CursorAdapter {
 
         private Cursor cursor;
         private ThreadsDb db;
-        private String parent;
+        private String url;
         private Api api = Api.build(this);
 
-        public Populator(String parent) {
-            this.parent = parent;
+        public Populator(String url) {
+            this.url = url;
             this.db = new ThreadsDb(context);
-            cursor = db.getDiscuss(parent);
+            cursor = db.getDiscuss(url);
             if (cursor == null || cursor.getPosition() < 0) {
                 update(null);
             } else {
@@ -89,7 +89,7 @@ public class ThreadsAdaptater extends CursorAdapter {
 
         public void update(String next) {
 
-            String url = "forum" + parent;
+            String url = this.url;
             if (next != null) {
                 url += "?paging=" + next;
             }
@@ -119,7 +119,7 @@ public class ThreadsAdaptater extends CursorAdapter {
         }
 
         private void reloadCursor() {
-            ThreadsAdaptater.this.changeCursor(db.getDiscuss(parent));
+            ThreadsAdaptater.this.changeCursor(db.getDiscuss(url));
 
         }
 
