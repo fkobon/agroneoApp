@@ -1,32 +1,26 @@
-package com.agroneo.app.discuss.threads;
+package com.agroneo.app.discuss;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.agroneo.app.R;
 import com.agroneo.app.api.Api;
 import com.agroneo.app.api.ApiResponse;
-import com.agroneo.app.utils.ImageLoader;
+import com.agroneo.app.discuss.threads.ThreadsDb;
 import com.agroneo.app.utils.Json;
 
-public class ThreadsAdaptater extends CursorAdapter {
+public class PostsAdaptater extends CursorAdapter {
 
     private Populator populator;
     private ListView listView;
     private ProgressBar loading;
     private Context context;
 
-    public ThreadsAdaptater(Context context, ListView listView, ProgressBar loading, String url) {
+    public PostsAdaptater(Context context, ListView listView, ProgressBar loading, String url) {
         super(context, null, 0);
         this.context = context;
         this.listView = listView;
@@ -35,35 +29,17 @@ public class ThreadsAdaptater extends CursorAdapter {
 
     }
 
+    public PostsAdaptater(Context context, Cursor c, boolean autoRequery) {
+        super(context, c, autoRequery);
+    }
+
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.discuss_item, parent, false);
+        return null;
     }
 
     @Override
-    public void bindView(View view, final Context context, Cursor cursor) {
-        ((TextView) view.findViewById(R.id.title)).setText(cursor.getString(cursor.getColumnIndex("title")));
-        ImageLoader.setRound(cursor.getString(cursor.getColumnIndex("user_avatar")) + "@200x200", (ImageView) view.findViewById(R.id.avatar), R.dimen.avatarDpw);
-        if (cursor.isLast()) {
-            String next = cursor.getString(cursor.getColumnIndex("next"));
-            if (next != null) {
-                populator.update(next);
-            }
-        }
-
-        final String url = cursor.getString(cursor.getColumnIndex("url"));
-       view.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                loadDiscuss(url);
-            }
-        });
-    }
-
-    private void loadDiscuss(String url) {
-        Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("agroneo:"+url));
-        context.startActivity(newIntent);
+    public void bindView(View view, Context context, Cursor cursor) {
 
     }
 
@@ -81,7 +57,7 @@ public class ThreadsAdaptater extends CursorAdapter {
             if (cursor == null || cursor.getPosition() < 0) {
                 update(null);
             } else {
-                ThreadsAdaptater.this.changeCursor(cursor);
+                PostsAdaptater.this.changeCursor(cursor);
             }
 
         }
@@ -119,7 +95,7 @@ public class ThreadsAdaptater extends CursorAdapter {
         }
 
         private void reloadCursor() {
-            ThreadsAdaptater.this.changeCursor(db.getDiscuss(parent));
+            PostsAdaptater.this.changeCursor(db.getDiscuss(parent));
 
         }
 

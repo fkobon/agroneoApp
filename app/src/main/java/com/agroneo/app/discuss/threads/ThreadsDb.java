@@ -38,6 +38,7 @@ public class ThreadsDb {
             Threads threadDb = new Threads();
             threadDb._id = threadJson.getId();
             threadDb.title = threadJson.getString("title");
+            threadDb.url = threadJson.getString("url");
             threadDb.date = threadJson.parseDate("date").getTime();
             Json last = threadJson.getJson("last");
             threadDb.last.date = last.parseDate("date").getTime();
@@ -96,6 +97,8 @@ public class ThreadsDb {
         public String _id;
 
         public String title;
+
+        public String url;
 
         public long date;
 

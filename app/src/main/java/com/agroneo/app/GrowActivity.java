@@ -73,9 +73,18 @@ public class GrowActivity extends AppCompatActivity implements NavigationView.On
                 getBaseContext().startActivity(intent);
 
             } else if (sheme.equals("agroneo")) {
-                documents.loadPage(intent.getData().getPath());
-                history.add(intent.getData().toString());
-                return;
+
+                String path = intent.getData().getPath();
+                if (path.matches(".*/([0-9A-Z]+)$")) {
+
+                    discuss.loadDiscuss(path);
+                    history.add(intent.getData().toString());
+                    return;
+                } else {
+                    documents.loadPage(path);
+                    history.add(intent.getData().toString());
+                    return;
+                }
             }
         }
     }
