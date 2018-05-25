@@ -24,13 +24,6 @@ import java.util.List;
 
 public class ThreadsDb {
 
-
-    private Context context;
-
-    public ThreadsDb(Context context) {
-        this.context = context;
-    }
-
     public static void insertDiscuss(Context context, List<Json> threadsJson, String next) {
         AppDatabase db = AppDatabase.getAppDatabase(context);
         if (threadsJson == null) {

@@ -72,17 +72,6 @@ public class ThreadsAdaptater extends CursorAdapter {
 
     }
 
-    private void closeCursor() {
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        closeCursor();
-        super.finalize();
-    }
 
     private class Populator implements ApiResponse {
 
@@ -130,12 +119,10 @@ public class ThreadsAdaptater extends CursorAdapter {
         }
 
         private void reloadCursor() {
-            closeCursor();
             if (url == null || url.equals("/forum")) {
                 cursor = AppDatabase.getAppDatabase(context).threadsDao().load();
             } else {
                 cursor = AppDatabase.getAppDatabase(context).threadsDao().load("%@" + url + "@%");
-
             }
             changeCursor(cursor);
         }
@@ -143,4 +130,11 @@ public class ThreadsAdaptater extends CursorAdapter {
 
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        super.finalize();
+    }
 }

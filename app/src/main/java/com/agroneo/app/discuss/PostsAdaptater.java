@@ -15,6 +15,7 @@ import com.agroneo.app.R;
 import com.agroneo.app.api.Api;
 import com.agroneo.app.api.ApiResponse;
 import com.agroneo.app.discuss.posts.PostsDb;
+import com.agroneo.app.utils.Fx;
 import com.agroneo.app.utils.ImageLoader;
 import com.agroneo.app.utils.Json;
 import com.agroneo.app.utils.db.AppDatabase;
@@ -27,7 +28,7 @@ public class PostsAdaptater extends CursorAdapter {
     private ListView listView;
     private ProgressBar loading;
 
-    public PostsAdaptater(Context context, ListView listView, ProgressBar loading, String url) {
+    public PostsAdaptater(Context context, ListView listView, ProgressBar loading,  String url) {
         super(context, null, 0);
         this.context = context;
         this.listView = listView;
@@ -77,7 +78,6 @@ public class PostsAdaptater extends CursorAdapter {
         public void apiResult(Json response) {
             if (response != null) {
                 PostsDb.insertPosts(context, response);
-
                 reloadCursor();
             }
 
@@ -90,22 +90,18 @@ public class PostsAdaptater extends CursorAdapter {
         }
 
         private void reloadCursor() {
-            closeCursor();
-            cursor = AppDatabase.getAppDatabase(context).postsDao().load(url);
+            String thread = url.replaceAll(".*/([A-Z0-9]+)$", "$1");
+            cursor = AppDatabase.getAppDatabase(context).postsDao().load(thread);
             changeCursor(cursor);
         }
 
     }
 
-    private void closeCursor() {
+    @Override
+    protected void finalize() throws Throwable {
         if (cursor != null && !cursor.isClosed()) {
             cursor.close();
         }
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        closeCursor();
         super.finalize();
     }
 }
