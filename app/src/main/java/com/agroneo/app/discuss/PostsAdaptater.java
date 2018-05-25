@@ -82,11 +82,10 @@ public class PostsAdaptater extends CursorAdapter {
 
         @Override
         public void apiResult(Json response) {
-            List<Json> posts = response.getListJson("posts");
-            if (posts != null) {
-                db.insertPosts(posts);
+            if (response != null) {
+                db.insertPosts(response);
+                reloadCursor();
             }
-            reloadCursor();
 
             listView.removeFooterView(loading);
         }

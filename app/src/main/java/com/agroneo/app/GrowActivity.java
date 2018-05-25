@@ -63,6 +63,9 @@ public class GrowActivity extends AppCompatActivity implements NavigationView.On
 
         setFragment(discuss);
 
+        //TODO: mauvaise gestion de l'history, ne pas logger les fragments, préférer un modèle basé sur l'URL qui activerai le fragment.
+        history.add("agroneo:///forum");
+
     }
 
     @Override
@@ -75,9 +78,9 @@ public class GrowActivity extends AppCompatActivity implements NavigationView.On
             } else if (sheme.equals("agroneo")) {
 
                 String path = intent.getData().getPath();
-                if (path.matches(".*/([0-9A-Z]+)$")) {
+                if (path.startsWith("/forum")) {
 
-                    discuss.loadDiscuss(path);
+                    discuss.load(path);
                     history.add(intent.getData().toString());
                     return;
                 } else {
@@ -86,6 +89,47 @@ public class GrowActivity extends AppCompatActivity implements NavigationView.On
                     return;
                 }
             }
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            history.remove(history.size() - 1);
+            if (history.size() == 0) {
+                super.onBackPressed();
+                return;
+            }
+            String last = history.get(history.size() - 1);
+            if (last.startsWith("agroneo")) {
+                Uri urilast = Uri.parse(last);
+                if (urilast.getScheme().equals("agroneo")) {
+                    String path = urilast.getPath();
+                    if (path.startsWith("/forum")) {
+                        discuss.load(path);
+                        return;
+                    } else {
+                        documents.loadPage(urilast.getPath());
+                        return;
+                    }
+                }
+            }
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            List<Fragment> frags = manager.getFragments();
+            for (Fragment frag : frags) {
+                if (frag.getClass().getName() == last) {
+                    transaction.show(frag);
+                } else {
+                    transaction.hide(frag);
+                }
+            }
+            transaction.commit();
         }
     }
 
@@ -145,37 +189,4 @@ public class GrowActivity extends AppCompatActivity implements NavigationView.On
         transaction.commit();
     }
 
-    @Override
-    public void onBackPressed() {
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            history.remove(history.size() - 1);
-            if (history.size() == 0) {
-                super.onBackPressed();
-                return;
-            }
-            String last = history.get(history.size() - 1);
-            if (last.startsWith("agroneo")) {
-                Uri urilast = Uri.parse(last);
-                if (urilast.getScheme().equals("agroneo")) {
-                    documents.loadPage(urilast.getPath());
-                    return;
-                }
-            }
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            List<Fragment> frags = manager.getFragments();
-            for (Fragment frag : frags) {
-                if (frag.getClass().getName() == last) {
-                    transaction.show(frag);
-                } else {
-                    transaction.hide(frag);
-                }
-            }
-            transaction.commit();
-        }
-    }
 }

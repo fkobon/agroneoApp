@@ -36,9 +36,15 @@ public class DiscussFragment extends Fragment {
         return listView;
     }
 
-    public void loadDiscuss(String path) {
+    public void load(String url) {
 
-        adaptater = new PostsAdaptater(getContext(), listView, loading, path);
+        if (url.matches(".*/([0-9A-Z]+)$")) {
+            adaptater = new PostsAdaptater(getContext(), listView, loading, url);
+        } else {
+            adaptater = new ThreadsAdaptater(getContext(), listView, loading, url);
+        }
+
+        listView.setAdapter(adaptater);
 
     }
 }

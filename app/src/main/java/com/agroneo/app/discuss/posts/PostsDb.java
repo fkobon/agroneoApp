@@ -28,23 +28,25 @@ public class PostsDb {
         this.context = context;
     }
 
-    public Cursor getPosts(String thread) {
+    public Cursor getPosts(String url) {
 
         AppDatabase db = AppDatabase.getAppDatabase(context);
-        return db.postsDao().load(thread);
+        return db.postsDao().load(url);
     }
 
 
-    public void insertPosts(List<Json> threadsJson) {
+    public void insertPosts(Json thread) {
         AppDatabase db = AppDatabase.getAppDatabase(context);
+
+        List<Json> posts = thread.getListJson("posts");
         PostsDao td = db.postsDao();
-        if (threadsJson == null) {
+        if (posts == null) {
             return;
         }
-        for (Json postJson : threadsJson) {
+        for (Json postJson : posts) {
             Posts postDb = new Posts();
             postDb._id = postJson.getId();
-            postDb.url = postJson.getString("url");
+            postDb.url = thread.getString("url");
             postDb.date = postJson.parseDate("date").getTime();
 
             postDb.update = postJson.containsKey("update") ? postJson.parseDate("update").getTime() : postJson.parseDate("date").getTime();
@@ -97,6 +99,7 @@ public class PostsDb {
         @PrimaryKey
         @NonNull
         String _id;
+        @NonNull
         String url;
         long date;
         long update;
@@ -112,7 +115,7 @@ public class PostsDb {
 
     public class Comments {
 
-        @Embedded(prefix = "user__")
+        @Embedded(prefix = "user_")
         UsersData user;
         String text;
         long date;
