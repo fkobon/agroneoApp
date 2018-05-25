@@ -25,7 +25,7 @@ public class PostsAdaptater extends CursorAdapter {
     private ListView listView;
     private ProgressBar loading;
 
-    public PostsAdaptater(Context context, ListView listView, ProgressBar loading,  String url) {
+    public PostsAdaptater(Context context, ListView listView, ProgressBar loading, String url) {
         super(context, null, 0);
         this.context = context;
         this.listView = listView;
@@ -37,7 +37,8 @@ public class PostsAdaptater extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.discuss_post_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.discuss_post_item, parent, false);
+        return view;
     }
 
     @Override
@@ -82,12 +83,14 @@ public class PostsAdaptater extends CursorAdapter {
 
         @Override
         public void apiError() {
+            listView.removeFooterView(loading);
 
         }
 
         private void reloadCursor() {
             String thread = url.replaceAll(".*/([A-Z0-9]+)$", "$1");
             changeCursor(AppDatabase.getAppDatabase(context).postsDao().load(thread));
+            notifyDataSetChanged();
         }
 
     }

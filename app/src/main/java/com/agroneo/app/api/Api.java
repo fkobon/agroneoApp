@@ -83,7 +83,9 @@ public abstract class Api implements ApiResponse {
             BufferedReader reader = null;
 
             try {
+
                 connection = (HttpURLConnection) new URL(Fx.API_URL + params[0]).openConnection();
+                connection.setRequestProperty("User-Agent", Fx.USER_AGENT);
                 connection.setRequestMethod(params[1]);
 
                 if (params.length > 2) {

@@ -10,10 +10,12 @@ import java.util.List;
 
 public class Fx {
     public static final String ISO_DATE = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    public static final String USER_AGENT = "Agroneo " + BuildConfig.VERSION_NAME + " (Android SDK " + android.os.Build.VERSION.SDK + ")";
     public static String API_URL = "https://api.agroneo.com";
     public static boolean IS_DEBUG = BuildConfig.DEBUG;
 
     public static void log(Object msg) {
+
         try {
             Log.d("Log", msg.toString());
         } catch (Exception e) {

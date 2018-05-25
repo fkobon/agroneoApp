@@ -41,7 +41,8 @@ public class ThreadsAdaptater extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.discuss_thread_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.discuss_thread_item, parent, false);
+        return view;
     }
 
     @Override
@@ -94,7 +95,6 @@ public class ThreadsAdaptater extends CursorAdapter {
             if (next != null) {
                 url += "?paging=" + next;
             }
-            listView.removeFooterView(loading);
             api.doGet(url);
             listView.addFooterView(loading);
         }
@@ -113,7 +113,7 @@ public class ThreadsAdaptater extends CursorAdapter {
 
         @Override
         public void apiError() {
-
+            listView.removeFooterView(loading);
         }
 
         private void reloadCursor() {
@@ -122,6 +122,7 @@ public class ThreadsAdaptater extends CursorAdapter {
             } else {
                 changeCursor(AppDatabase.getAppDatabase(context).threadsDao().load("%@" + url + "@%"));
             }
+            notifyDataSetChanged();
 
         }
     }

@@ -66,7 +66,7 @@ public class GaiaMapView extends MapView implements ApiResponse, OnMapReadyCallb
         data.put("zoom", map.getCameraPosition().zoom);
         data.put("bounds", new Json().put("south", bounds.southwest.latitude).put("west", bounds.southwest.longitude).put("north", bounds.northeast.latitude).put("east", bounds.northeast.longitude));
 
-        api.doPost("gaia", data);
+        api.doPost("/gaia", data);
         actionbar.show(1);
     }
 
