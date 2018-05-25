@@ -1,4 +1,4 @@
-package com.agroneo.app.discuss;
+package com.agroneo.app.discuss.posts;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -14,8 +14,6 @@ import android.widget.TextView;
 import com.agroneo.app.R;
 import com.agroneo.app.api.Api;
 import com.agroneo.app.api.ApiResponse;
-import com.agroneo.app.discuss.posts.PostsDb;
-import com.agroneo.app.utils.Fx;
 import com.agroneo.app.utils.ImageLoader;
 import com.agroneo.app.utils.Json;
 import com.agroneo.app.utils.db.AppDatabase;
@@ -24,7 +22,6 @@ public class PostsAdaptater extends CursorAdapter {
 
     private Context context;
     private Populator populator;
-    private Cursor cursor;
     private ListView listView;
     private ProgressBar loading;
 
@@ -58,11 +55,10 @@ public class PostsAdaptater extends CursorAdapter {
 
         public Populator(String url) {
             this.url = url;
-            reloadCursor();
-            if (cursor == null || cursor.getPosition() < 0) {
+            if (getCursor() == null || getCursor().getPosition() < 0) {
                 update(url);
             } else {
-                PostsAdaptater.this.changeCursor(cursor);
+                reloadCursor();
             }
 
         }
@@ -91,16 +87,15 @@ public class PostsAdaptater extends CursorAdapter {
 
         private void reloadCursor() {
             String thread = url.replaceAll(".*/([A-Z0-9]+)$", "$1");
-            cursor = AppDatabase.getAppDatabase(context).postsDao().load(thread);
-            changeCursor(cursor);
+            changeCursor(AppDatabase.getAppDatabase(context).postsDao().load(thread));
         }
 
     }
 
     @Override
     protected void finalize() throws Throwable {
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
+        if (getCursor() != null && !getCursor().isClosed()) {
+            getCursor().close();
         }
         super.finalize();
     }

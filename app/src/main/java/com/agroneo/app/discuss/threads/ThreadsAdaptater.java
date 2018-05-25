@@ -27,7 +27,6 @@ public class ThreadsAdaptater extends CursorAdapter {
 
     private Context context;
     private Populator populator;
-    private Cursor cursor;
     private ListView listView;
     private ProgressBar loading;
 
@@ -80,11 +79,10 @@ public class ThreadsAdaptater extends CursorAdapter {
 
         public Populator(String url) {
             this.url = url;
-            reloadCursor();
-            if (cursor == null || cursor.getPosition() < 0) {
+            if (getCursor() == null || getCursor().getPosition() < 0) {
                 update(null);
             } else {
-                ThreadsAdaptater.this.changeCursor(cursor);
+                reloadCursor();
             }
 
         }
@@ -120,20 +118,18 @@ public class ThreadsAdaptater extends CursorAdapter {
 
         private void reloadCursor() {
             if (url == null || url.equals("/forum")) {
-                cursor = AppDatabase.getAppDatabase(context).threadsDao().load();
+                changeCursor(AppDatabase.getAppDatabase(context).threadsDao().load());
             } else {
-                cursor = AppDatabase.getAppDatabase(context).threadsDao().load("%@" + url + "@%");
+                changeCursor(AppDatabase.getAppDatabase(context).threadsDao().load("%@" + url + "@%"));
             }
-            changeCursor(cursor);
+
         }
-
-
     }
 
     @Override
     protected void finalize() throws Throwable {
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
+        if (getCursor() != null && !getCursor().isClosed()) {
+            getCursor().close();
         }
         super.finalize();
     }

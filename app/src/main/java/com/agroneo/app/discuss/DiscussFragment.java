@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.agroneo.app.R;
+import com.agroneo.app.discuss.posts.PostsAdaptater;
 import com.agroneo.app.discuss.threads.ThreadsAdaptater;
 import com.agroneo.app.ui.ActionBarCtl;
 
@@ -23,6 +24,8 @@ public class DiscussFragment extends Fragment {
         this.actionbar = actionbar;
         return this;
     }
+
+    //TODO: pas bon avec un seul fragment, il faut que le back ne ramène pas en haut
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

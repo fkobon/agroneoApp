@@ -1,4 +1,4 @@
-package com.agroneo.app.discuss;
+package com.agroneo.app.discuss.posts;
 
 import com.agroneo.app.utils.Json;
 
