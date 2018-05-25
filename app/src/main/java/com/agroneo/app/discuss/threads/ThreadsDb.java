@@ -33,10 +33,10 @@ public class ThreadsDb {
 
     public static void insertDiscuss(Context context, List<Json> threadsJson, String next) {
         AppDatabase db = AppDatabase.getAppDatabase(context);
-        ThreadsDao td = db.threadsDao();
         if (threadsJson == null) {
             return;
         }
+        ThreadsDao td = db.threadsDao();
         for (Json threadJson : threadsJson) {
             Threads thread = new Threads();
             thread._id = threadJson.getId();

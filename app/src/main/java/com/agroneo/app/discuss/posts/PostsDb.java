@@ -32,10 +32,10 @@ public class PostsDb {
         AppDatabase db = AppDatabase.getAppDatabase(context);
 
         List<Json> posts = thread.getListJson("posts");
-        PostsDao td = db.postsDao();
         if (posts == null) {
             return;
         }
+        PostsDao td = db.postsDao();
         for (Json postJson : posts) {
             Posts post = new Posts();
             post._id = postJson.getId();
