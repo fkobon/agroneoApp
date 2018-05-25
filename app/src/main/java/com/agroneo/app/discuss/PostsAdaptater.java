@@ -15,32 +15,27 @@ import com.agroneo.app.R;
 import com.agroneo.app.api.Api;
 import com.agroneo.app.api.ApiResponse;
 import com.agroneo.app.discuss.posts.PostsDb;
-import com.agroneo.app.discuss.threads.ThreadsDb;
 import com.agroneo.app.utils.ImageLoader;
 import com.agroneo.app.utils.Json;
-
-import java.util.List;
+import com.agroneo.app.utils.db.AppDatabase;
 
 public class PostsAdaptater extends CursorAdapter {
 
+    private Context context;
     private Populator populator;
+    private Cursor cursor;
     private ListView listView;
     private ProgressBar loading;
-    private Context context;
 
     public PostsAdaptater(Context context, ListView listView, ProgressBar loading, String url) {
         super(context, null, 0);
         this.context = context;
         this.listView = listView;
         this.loading = loading;
+
         populator = new Populator(url);
 
     }
-
-    public PostsAdaptater(Context context, Cursor c, boolean autoRequery) {
-        super(context, c, autoRequery);
-    }
-
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -54,17 +49,15 @@ public class PostsAdaptater extends CursorAdapter {
 
     }
 
+
     private class Populator implements ApiResponse {
 
-        private Cursor cursor;
-        private PostsDb db;
         private Api api = Api.build(this);
-        String url;
+        private String url;
 
         public Populator(String url) {
             this.url = url;
-            this.db = new PostsDb(context);
-            cursor = db.getPosts(url);
+            reloadCursor();
             if (cursor == null || cursor.getPosition() < 0) {
                 update(url);
             } else {
@@ -83,7 +76,8 @@ public class PostsAdaptater extends CursorAdapter {
         @Override
         public void apiResult(Json response) {
             if (response != null) {
-                db.insertPosts(response);
+                PostsDb.insertPosts(context, response);
+
                 reloadCursor();
             }
 
@@ -96,10 +90,22 @@ public class PostsAdaptater extends CursorAdapter {
         }
 
         private void reloadCursor() {
-            PostsAdaptater.this.changeCursor(db.getPosts(url));
-
+            closeCursor();
+            cursor = AppDatabase.getAppDatabase(context).postsDao().load(url);
+            changeCursor(cursor);
         }
 
     }
 
+    private void closeCursor() {
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        closeCursor();
+        super.finalize();
+    }
 }

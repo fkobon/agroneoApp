@@ -28,14 +28,7 @@ public class PostsDb {
         this.context = context;
     }
 
-    public Cursor getPosts(String url) {
-
-        AppDatabase db = AppDatabase.getAppDatabase(context);
-        return db.postsDao().load(url);
-    }
-
-
-    public void insertPosts(Json thread) {
+    public static void insertPosts(Context context, Json thread) {
         AppDatabase db = AppDatabase.getAppDatabase(context);
 
         List<Json> posts = thread.getListJson("posts");
@@ -44,21 +37,21 @@ public class PostsDb {
             return;
         }
         for (Json postJson : posts) {
-            Posts postDb = new Posts();
-            postDb._id = postJson.getId();
-            postDb.url = thread.getString("url");
-            postDb.date = postJson.parseDate("date").getTime();
+            Posts post = new Posts();
+            post._id = postJson.getId();
+            post.url = thread.getString("url");
+            post.date = postJson.parseDate("date").getTime();
 
-            postDb.update = postJson.containsKey("update") ? postJson.parseDate("update").getTime() : postJson.parseDate("date").getTime();
-            postDb.changes = postJson.getInteger("changes");
-            postDb.text = postJson.getString("text");
+            post.update = postJson.containsKey("update") ? postJson.parseDate("update").getTime() : postJson.parseDate("date").getTime();
+            post.changes = postJson.getInteger("changes");
+            post.text = postJson.getString("text");
 
             Json user = postJson.getJson("user");
-            postDb.user._id = user.getId();
-            postDb.user.name = user.getString("name");
-            postDb.user.avatar = user.getString("avatar");
+            post.user._id = user.getId();
+            post.user.name = user.getString("name");
+            post.user.avatar = user.getString("avatar");
 
-            postDb.coins = postJson.getInteger("coins");
+            post.coins = postJson.getInteger("coins");
 
             for (Json comment : postJson.getListJson("comments")) {
                 Comments com = new Comments();
@@ -70,13 +63,12 @@ public class PostsDb {
                 usercom.avatar = usercomdb.getString("avatar");
                 com.user = usercom;
                 com.text = comment.getString("text");
-                postDb.comments.add(com);
+                post.comments.add(com);
             }
 
-            td.insertAll(postDb);
+            td.insert(post);
         }
 
-        db.destroyInstance();
     }
 
     @Dao
@@ -87,7 +79,7 @@ public class PostsDb {
         Cursor load(String url);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
-        void insertAll(Posts... posts);
+        void insert(Posts post);
 
         @Delete
         void delete(Posts post);
@@ -113,7 +105,7 @@ public class PostsDb {
 
     }
 
-    public class Comments {
+    public static class Comments {
 
         @Embedded(prefix = "user_")
         UsersData user;

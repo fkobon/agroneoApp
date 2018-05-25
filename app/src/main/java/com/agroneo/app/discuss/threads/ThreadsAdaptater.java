@@ -18,13 +18,18 @@ import com.agroneo.app.api.Api;
 import com.agroneo.app.api.ApiResponse;
 import com.agroneo.app.utils.ImageLoader;
 import com.agroneo.app.utils.Json;
+import com.agroneo.app.utils.db.AppDatabase;
 
+/*
+        TODO: Gestion du pagingNext bien foireuse
+ */
 public class ThreadsAdaptater extends CursorAdapter {
 
+    private Context context;
     private Populator populator;
+    private Cursor cursor;
     private ListView listView;
     private ProgressBar loading;
-    private Context context;
 
     public ThreadsAdaptater(Context context, ListView listView, ProgressBar loading, String url) {
         super(context, null, 0);
@@ -52,7 +57,7 @@ public class ThreadsAdaptater extends CursorAdapter {
         }
 
         final String url = cursor.getString(cursor.getColumnIndex("url"));
-       view.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -62,22 +67,31 @@ public class ThreadsAdaptater extends CursorAdapter {
     }
 
     private void loadDiscuss(String url) {
-        Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("agroneo:"+url));
+        Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("agroneo:" + url));
         context.startActivity(newIntent);
 
     }
 
+    private void closeCursor() {
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        closeCursor();
+        super.finalize();
+    }
+
     private class Populator implements ApiResponse {
 
-        private Cursor cursor;
-        private ThreadsDb db;
         private String url;
         private Api api = Api.build(this);
 
         public Populator(String url) {
             this.url = url;
-            this.db = new ThreadsDb(context);
-            cursor = db.getDiscuss(url);
+            reloadCursor();
             if (cursor == null || cursor.getPosition() < 0) {
                 update(null);
             } else {
@@ -93,10 +107,7 @@ public class ThreadsAdaptater extends CursorAdapter {
             if (next != null) {
                 url += "?paging=" + next;
             }
-
-
             listView.removeFooterView(loading);
-
             api.doGet(url);
             listView.addFooterView(loading);
         }
@@ -106,7 +117,7 @@ public class ThreadsAdaptater extends CursorAdapter {
             Json posts = response.getJson("posts");
             String paging = posts.getJson("paging").getString("next");
             if (posts != null) {
-                db.insertDiscuss(posts.getListJson("result"), paging);
+                ThreadsDb.insertDiscuss(context, posts.getListJson("result"), paging);
             }
             reloadCursor();
 
@@ -119,9 +130,16 @@ public class ThreadsAdaptater extends CursorAdapter {
         }
 
         private void reloadCursor() {
-            ThreadsAdaptater.this.changeCursor(db.getDiscuss(url));
+            closeCursor();
+            if (url == null || url.equals("/forum")) {
+                cursor = AppDatabase.getAppDatabase(context).threadsDao().load();
+            } else {
+                cursor = AppDatabase.getAppDatabase(context).threadsDao().load("%@" + url + "@%");
 
+            }
+            changeCursor(cursor);
         }
+
 
     }
 

@@ -31,7 +31,7 @@ public class PagesFragment extends Fragment implements ApiResponse {
     }
 
     public void loadPage(String url) {
-        if (page!=null) {
+        if (page != null) {
             page.loading(true);
         }
         api.doGet(url);
