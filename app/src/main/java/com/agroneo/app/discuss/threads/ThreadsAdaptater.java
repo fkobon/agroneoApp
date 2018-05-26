@@ -36,10 +36,7 @@ public class ThreadsAdaptater extends ListAdapter<Threads> {
         ((TextView) view.findViewById(R.id.title)).setText(thread.title);
         ImageLoader.setRound(thread.user.avatar + "@200x200", (ImageView) view.findViewById(R.id.avatar), R.dimen.avatarDpw);
         if (isLast) {
-            String next = thread.next;
-            if (next != null) {
-                populator.update(next);
-            }
+            populator.update();
         }
 
         final String url = thread.url;
@@ -61,32 +58,33 @@ public class ThreadsAdaptater extends ListAdapter<Threads> {
     private class Populator implements ApiResponse {
 
         private String url;
+        private String next;
         private Api api = Api.build(this);
 
         public Populator(String url) {
             this.url = url;
             if (getCount() == 0) {
-                update(null);
+                update();
             } else {
                 reloadData();
             }
         }
 
-        public void update(String next) {
+        public void update() {
             String url = this.url;
-            if (next != null) {
-                url += "?paging=" + next;
+            if (next == "") {
+                return;
             }
-            api.doGet(url);
+            api.doGet(url + ((next != null) ? "?paging=" + next : ""));
             loading(true);
         }
 
         @Override
         public void apiResult(Json response) {
             Json posts = response.getJson("posts");
-            String paging = posts.getJson("paging").getString("next");
+            next = posts.getJson("paging").getString("next", "");
             if (posts != null) {
-                ThreadsDb.insertDiscuss(getContext(), posts.getListJson("result"), paging);
+                ThreadsDb.insertDiscuss(getContext(), posts.getListJson("result"));
             }
             reloadData();
             loading(false);

@@ -23,7 +23,7 @@ import java.util.List;
 
 public class ThreadsDb {
 
-    public static void insertDiscuss(Context context, List<Json> threadsJson, String next) {
+    public static void insertDiscuss(Context context, List<Json> threadsJson) {
         AppDatabase db = AppDatabase.getAppDatabase(context);
         if (threadsJson == null) {
             return;
@@ -54,7 +54,6 @@ public class ThreadsDb {
             for (Json parent : threadJson.getListJson("parents")) {
                 thread.parents.add(parent.getString("url"));
             }
-            thread.next = next;
 
             td.insert(thread);
         }
@@ -93,11 +92,6 @@ public class ThreadsDb {
         int replies;
         @TypeConverters(ListTypeConverter.class)
         List<String> parents = new ArrayList<>();
-        String next;
-        @Override
-        public String toString() {
-            return "Threads{" + "_id='" + _id + '\'' + ", title='" + title + '\'' + ", url='" + url + '\'' + ", date=" + date + ", last=" + last + ", user=" + user + ", replies=" + replies + ", parents=" + parents + ", next='" + next + '\'' + '}';
-        }
     }
 
     public static class ThreadsLast {
