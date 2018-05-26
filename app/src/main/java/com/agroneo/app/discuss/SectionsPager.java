@@ -50,6 +50,9 @@ public class SectionsPager extends FragmentPagerAdapter {
 
             listView = new ListView(getContext());
             listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            listView.setDividerHeight(2);
+            listView.setClickable(true);
+            listView.setTop(10);
             adaptater = new ThreadsAdaptater(getContext(), listView, "/forum");
             listView.setAdapter(adaptater);
 
