@@ -69,8 +69,10 @@ public class PostsDb {
     public interface PostsDao {
         @Query("SELECT * FROM posts WHERE thread = :thread ORDER BY date ASC")
         List<Posts> load(String thread);
+
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         void insert(Posts post);
+
         @Delete
         void delete(Posts post);
     }

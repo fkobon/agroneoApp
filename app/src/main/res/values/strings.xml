@@ -16,4 +16,6 @@
     <string name="oauth_info">Choose a service to connect to Agroneo</string>
     <string name="twitter">Twitter</string>
     <string name="microsoft">Microsoft</string>
+    <string name="title_activity_tab_x">TabActivityX</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
