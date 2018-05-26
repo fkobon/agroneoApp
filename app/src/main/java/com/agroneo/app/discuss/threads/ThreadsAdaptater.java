@@ -2,61 +2,47 @@ package com.agroneo.app.discuss.threads;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
-import android.support.v4.widget.CursorAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.agroneo.app.R;
 import com.agroneo.app.api.Api;
 import com.agroneo.app.api.ApiResponse;
+import com.agroneo.app.discuss.threads.ThreadsDb.Threads;
 import com.agroneo.app.utils.ImageLoader;
 import com.agroneo.app.utils.Json;
+import com.agroneo.app.utils.adapter.ListAdapter;
 import com.agroneo.app.utils.db.AppDatabase;
 
 /*
         TODO: Gestion du pagingNext bien foireuse
  */
-public class ThreadsAdaptater extends CursorAdapter {
+public class ThreadsAdaptater extends ListAdapter<Threads> {
 
-    private Context context;
     private Populator populator;
-    private ListView listView;
-    private ProgressBar loading;
 
-    public ThreadsAdaptater(Context context, ListView listView, ProgressBar loading, String url) {
-        super(context, null, 0);
-        this.context = context;
-        this.listView = listView;
-        this.loading = loading;
+    public ThreadsAdaptater(Context context, ListView listView, String url) {
+        super(context, R.layout.discuss_thread_item, listView);
         populator = new Populator(url);
 
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.discuss_thread_item, parent, false);
-        return view;
-    }
+    public void showView(View view, Threads thread, boolean isLast) {
 
-    @Override
-    public void bindView(View view, final Context context, Cursor cursor) {
-        ((TextView) view.findViewById(R.id.title)).setText(cursor.getString(cursor.getColumnIndex("title")));
-        ImageLoader.setRound(cursor.getString(cursor.getColumnIndex("user_avatar")) + "@200x200", (ImageView) view.findViewById(R.id.avatar), R.dimen.avatarDpw);
-        if (cursor.isLast()) {
-            String next = cursor.getString(cursor.getColumnIndex("next"));
+        ((TextView) view.findViewById(R.id.title)).setText(thread.title);
+        ImageLoader.setRound(thread.user.avatar + "@200x200", (ImageView) view.findViewById(R.id.avatar), R.dimen.avatarDpw);
+        if (isLast) {
+            String next = thread.next;
             if (next != null) {
                 populator.update(next);
             }
         }
 
-        final String url = cursor.getString(cursor.getColumnIndex("url"));
+        final String url = thread.url;
         view.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -66,12 +52,11 @@ public class ThreadsAdaptater extends CursorAdapter {
         });
     }
 
+
     private void loadDiscuss(String url) {
         Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("agroneo:" + url));
-        context.startActivity(newIntent);
-
+        getContext().startActivity(newIntent);
     }
-
 
     private class Populator implements ApiResponse {
 
@@ -80,23 +65,20 @@ public class ThreadsAdaptater extends CursorAdapter {
 
         public Populator(String url) {
             this.url = url;
-            if (getCursor() == null || getCursor().getPosition() < 0) {
+            if (getCount() == 0) {
                 update(null);
             } else {
-                reloadCursor();
+                reloadData();
             }
-
         }
 
-
         public void update(String next) {
-
             String url = this.url;
             if (next != null) {
                 url += "?paging=" + next;
             }
             api.doGet(url);
-            listView.addFooterView(loading);
+            loading(true);
         }
 
         @Override
@@ -104,34 +86,23 @@ public class ThreadsAdaptater extends CursorAdapter {
             Json posts = response.getJson("posts");
             String paging = posts.getJson("paging").getString("next");
             if (posts != null) {
-                ThreadsDb.insertDiscuss(context, posts.getListJson("result"), paging);
+                ThreadsDb.insertDiscuss(getContext(), posts.getListJson("result"), paging);
             }
-            reloadCursor();
-
-            listView.removeFooterView(loading);
+            reloadData();
+            loading(false);
         }
 
         @Override
         public void apiError() {
-            listView.removeFooterView(loading);
+            loading(false);
         }
 
-        private void reloadCursor() {
+        private void reloadData() {
             if (url == null || url.equals("/forum")) {
-                changeCursor(AppDatabase.getAppDatabase(context).threadsDao().load());
+                setData(AppDatabase.getAppDatabase(getContext()).threadsDao().load());
             } else {
-                changeCursor(AppDatabase.getAppDatabase(context).threadsDao().load("%@" + url + "@%"));
+                setData(AppDatabase.getAppDatabase(getContext()).threadsDao().load("%@" + url + "@%"));
             }
-            notifyDataSetChanged();
-
         }
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        if (getCursor() != null && !getCursor().isClosed()) {
-            getCursor().close();
-        }
-        super.finalize();
     }
 }

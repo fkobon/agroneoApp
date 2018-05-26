@@ -10,7 +10,6 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.Query;
 import android.content.Context;
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.agroneo.app.users.UsersData;
@@ -68,47 +67,31 @@ public class PostsDb {
 
     @Dao
     public interface PostsDao {
-
-
         @Query("SELECT * FROM posts WHERE thread = :thread ORDER BY date ASC")
-        Cursor load(String thread);
-
-
+        List<Posts> load(String thread);
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         void insert(Posts post);
-
         @Delete
         void delete(Posts post);
     }
 
     @Entity(indices = {@Index("thread"), @Index("date")})
     public static class Posts {
-
         @PrimaryKey
         @NonNull
         String _id;
-
         String url;
-
         @NonNull
         String thread;
-
         long date;
-
         long update;
-
         int changes;
-
         int coins;
-
         String text;
-
         @Embedded(prefix = "user_")
         UsersData user = new UsersData();
-
         @Embedded(prefix = "comments_")
         ArrayList<Comments> comments = new ArrayList();
-
     }
 
     public static class Comments {

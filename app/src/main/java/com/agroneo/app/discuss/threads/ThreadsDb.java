@@ -11,7 +11,6 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.agroneo.app.users.UsersData;
@@ -29,6 +28,7 @@ public class ThreadsDb {
         if (threadsJson == null) {
             return;
         }
+
         ThreadsDao td = db.threadsDao();
         for (Json threadJson : threadsJson) {
             Threads thread = new Threads();
@@ -64,10 +64,10 @@ public class ThreadsDb {
     public interface ThreadsDao {
 
         @Query("SELECT * FROM threads ORDER BY last_date DESC")
-        Cursor load();
+        List<Threads> load();
 
         @Query("SELECT * FROM threads WHERE parents LIKE :parent ORDER BY last_date DESC")
-        Cursor load(String parent);
+        List<Threads> load(String parent);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         void insert(Threads thread);
@@ -83,30 +83,24 @@ public class ThreadsDb {
         @PrimaryKey
         @NonNull
         String _id;
-
         String title;
-
         String url;
-
         long date;
-
         @Embedded(prefix = "last_")
         ThreadsLast last = new ThreadsLast();
-
         @Embedded(prefix = "user_")
         UsersData user = new UsersData();
-
         int replies;
         @TypeConverters(ListTypeConverter.class)
         List<String> parents = new ArrayList<>();
-
         String next;
-
-
+        @Override
+        public String toString() {
+            return "Threads{" + "_id='" + _id + '\'' + ", title='" + title + '\'' + ", url='" + url + '\'' + ", date=" + date + ", last=" + last + ", user=" + user + ", replies=" + replies + ", parents=" + parents + ", next='" + next + '\'' + '}';
+        }
     }
 
     public static class ThreadsLast {
-
         String _id;
         long date;
         @Embedded(prefix = "user_")
