@@ -1,4 +1,4 @@
-package com.agroneo.app.discuss.threads;
+package com.agroneo.app.discuss.forums;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
