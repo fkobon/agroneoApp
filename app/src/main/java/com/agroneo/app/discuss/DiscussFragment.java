@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.agroneo.app.R;
+import com.agroneo.app.discuss.forums.ForumsPager;
 import com.agroneo.app.ui.ActionBarCtl;
 
 public class DiscussFragment extends Fragment {
@@ -22,7 +23,7 @@ public class DiscussFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.discuss, container, false);
-        SectionsPager adapter = new SectionsPager(getFragmentManager());
+        ForumsPager adapter = new ForumsPager(getFragmentManager());
         ViewPager pager = view.findViewById(R.id.pager);
         pager.setAdapter(adapter);
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.agroneo.app.R;
 import com.agroneo.app.api.Api;
 import com.agroneo.app.api.ApiResponse;
+import com.agroneo.app.discuss.forums.ForumsDb;
 import com.agroneo.app.discuss.threads.ThreadsDb.Threads;
 import com.agroneo.app.utils.ImageLoader;
 import com.agroneo.app.utils.Json;
@@ -59,9 +60,14 @@ public class ThreadsAdaptater extends ListAdapter<Threads> implements ApiRespons
     @Override
     public void apiResult(Json response) {
         Json posts = response.getJson("posts");
-        next = posts.getJson("paging").getString("next", "");
         if (posts != null) {
-            ThreadsDb.insertDiscuss(getContext(), posts.getListJson("result"));
+            next = posts.getJson("paging").getString("next", "");
+            ThreadsDb.insertThreads(getContext(), posts.getListJson("result"));
+        }
+
+        Json forum = response.getJson("forum");
+        if (forum != null) {
+            ForumsDb.insertForums(getContext(), forum);
         }
         reloadData();
         loading(false);

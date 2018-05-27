@@ -23,7 +23,7 @@ import java.util.List;
 
 public class ThreadsDb {
 
-    public static void insertDiscuss(Context context, List<Json> threadsJson) {
+    public static void insertThreads(Context context, List<Json> threadsJson) {
         AppDatabase db = AppDatabase.getAppDatabase(context);
         if (threadsJson == null) {
             return;

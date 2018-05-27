@@ -1,4 +1,4 @@
-package com.agroneo.app.discuss;
+package com.agroneo.app.discuss.forums;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,11 +14,11 @@ import com.agroneo.app.discuss.threads.ThreadsAdaptater;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SectionsPager extends FragmentPagerAdapter {
+public class ForumsPager extends FragmentPagerAdapter {
 
     private List<DiscussFragment> fragments = new ArrayList<>();
 
-    public SectionsPager(FragmentManager fm) {
+    public ForumsPager(FragmentManager fm) {
         super(fm);
         DiscussFragment discuss = new DiscussFragment();
         discuss.setUrl("/forum");
