@@ -25,6 +25,8 @@ public class DiscussFragment extends Fragment {
         SectionsPager adapter = new SectionsPager(getFragmentManager());
         ViewPager pager = view.findViewById(R.id.pager);
         pager.setAdapter(adapter);
+
+
         return view;
     }
 

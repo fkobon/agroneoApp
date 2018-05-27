@@ -60,6 +60,10 @@ public class ActionBarCtl {
         return actionBar.getHeight();
     }
 
+    public ActionBar getActionBar() {
+        return actionBar;
+    }
+
     public interface ActionImpl {
         void showing();
 

@@ -9,41 +9,49 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.agroneo.app.discuss.posts.PostsAdaptater;
 import com.agroneo.app.discuss.threads.ThreadsAdaptater;
-import com.agroneo.app.utils.adapter.ListAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SectionsPager extends FragmentPagerAdapter {
 
+    private List<DiscussFragment> fragments = new ArrayList<>();
+
     public SectionsPager(FragmentManager fm) {
         super(fm);
+        DiscussFragment discuss = new DiscussFragment();
+        discuss.setUrl("/forum");
+        fragments.add(discuss);
     }
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
-        //return DiscussFragment.PlaceholderFragment.newInstance(position + 1);
-        return new DiscussFragment();
+        return fragments.get(position);
     }
 
     @Override
     public int getCount() {
-        // Show 3 total pages.
-        return 3;
+        return fragments.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "Test";
+        return fragments.get(position).getTitle();
     }
 
     public static class DiscussFragment extends Fragment {
-        private ListAdapter adaptater;
         private ListView listView;
+        private String url;
+        private String title;
 
+        public String getTitle() {
+            return title;
+        }
 
-        //TODO: pas bon avec un seul fragment, il faut que le back ne ramène pas en haut
+        public void setTitle(String title) {
+            this.title = title;
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,23 +60,19 @@ public class SectionsPager extends FragmentPagerAdapter {
             listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             listView.setDividerHeight(2);
             listView.setClickable(true);
-            listView.setTop(10);
-            adaptater = new ThreadsAdaptater(getContext(), listView, "/forum");
-            listView.setAdapter(adaptater);
+            load(url);
 
             return listView;
         }
 
+
         public void load(String url) {
+            listView.setAdapter(new ThreadsAdaptater(getContext(), listView, url));
+        }
 
-            if (url.matches(".*/([0-9A-Z]+)$")) {
-                adaptater = new PostsAdaptater(getContext(), listView, url);
-            } else {
-                adaptater = new ThreadsAdaptater(getContext(), listView, url);
-            }
 
-            listView.setAdapter(adaptater);
-
+        public void setUrl(String url) {
+            this.url = url;
         }
     }
 }

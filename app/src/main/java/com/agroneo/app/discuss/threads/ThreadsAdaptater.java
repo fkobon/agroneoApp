@@ -17,17 +17,16 @@ import com.agroneo.app.utils.Json;
 import com.agroneo.app.utils.adapter.ListAdapter;
 import com.agroneo.app.utils.db.AppDatabase;
 
-/*
-        TODO: Gestion du pagingNext bien foireuse
- */
-public class ThreadsAdaptater extends ListAdapter<Threads> {
+public class ThreadsAdaptater extends ListAdapter<Threads> implements ApiResponse, View.OnClickListener {
 
-    private Populator populator;
+    private String url;
+    private String next;
+    private Api api = Api.build(this);
 
     public ThreadsAdaptater(Context context, ListView listView, String url) {
         super(context, R.layout.discuss_thread_item, listView);
-        populator = new Populator(url);
-
+        this.url = url;
+        update();
     }
 
     @Override
@@ -36,71 +35,52 @@ public class ThreadsAdaptater extends ListAdapter<Threads> {
         ((TextView) view.findViewById(R.id.title)).setText(thread.title);
         ImageLoader.setRound(thread.user.avatar + "@200x200", (ImageView) view.findViewById(R.id.avatar), R.dimen.avatarDpw);
         if (isLast) {
-            populator.update();
+            update();
         }
 
-        final String url = thread.url;
-        view.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                loadDiscuss(url);
-            }
-        });
+        view.setTag(R.id.url, thread.url);
+        view.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        loadDiscuss(v.getTag(R.id.url).toString());
+    }
+
+
+    public void update() {
+        if (next == "") {
+            return;
+        }
+        loading(true);
+        api.doGet(url + ((next != null) ? "?paging=" + next : ""));
+    }
+
+    @Override
+    public void apiResult(Json response) {
+        Json posts = response.getJson("posts");
+        next = posts.getJson("paging").getString("next", "");
+        if (posts != null) {
+            ThreadsDb.insertDiscuss(getContext(), posts.getListJson("result"));
+        }
+        reloadData();
+        loading(false);
+    }
+
+    @Override
+    public void apiError() {
+        loading(false);
+    }
 
     private void loadDiscuss(String url) {
-        Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("agroneo:" + url));
-        getContext().startActivity(newIntent);
+        getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("agroneo:" + url)));
     }
 
-    private class Populator implements ApiResponse {
-
-        private String url;
-        private String next;
-        private Api api = Api.build(this);
-
-        public Populator(String url) {
-            this.url = url;
-            if (getCount() == 0) {
-                update();
-            } else {
-                reloadData();
-            }
-        }
-
-        public void update() {
-            String url = this.url;
-            if (next == "") {
-                return;
-            }
-            api.doGet(url + ((next != null) ? "?paging=" + next : ""));
-            loading(true);
-        }
-
-        @Override
-        public void apiResult(Json response) {
-            Json posts = response.getJson("posts");
-            next = posts.getJson("paging").getString("next", "");
-            if (posts != null) {
-                ThreadsDb.insertDiscuss(getContext(), posts.getListJson("result"));
-            }
-            reloadData();
-            loading(false);
-        }
-
-        @Override
-        public void apiError() {
-            loading(false);
-        }
-
-        private void reloadData() {
-            if (url == null || url.equals("/forum")) {
-                setData(AppDatabase.getAppDatabase(getContext()).threadsDao().load());
-            } else {
-                setData(AppDatabase.getAppDatabase(getContext()).threadsDao().load("%@" + url + "@%"));
-            }
+    private void reloadData() {
+        if (url == null || url.equals("/forum")) {
+            setData(AppDatabase.getAppDatabase(getContext()).threadsDao().load());
+        } else {
+            setData(AppDatabase.getAppDatabase(getContext()).threadsDao().load("%@" + url + "@%"));
         }
     }
 }
