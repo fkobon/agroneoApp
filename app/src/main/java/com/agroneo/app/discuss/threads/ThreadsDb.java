@@ -81,24 +81,24 @@ public class ThreadsDb {
 
         @PrimaryKey
         @NonNull
-        String _id;
-        String title;
-        String url;
-        long date;
+        public String _id;
+        public String title;
+        public String url;
+        public long date;
         @Embedded(prefix = "last_")
-        ThreadsLast last = new ThreadsLast();
+        public ThreadsLast last = new ThreadsLast();
         @Embedded(prefix = "user_")
-        UsersData user = new UsersData();
-        int replies;
+        public UsersData user = new UsersData();
+        public int replies;
         @TypeConverters(ListTypeConverter.class)
-        List<String> parents = new ArrayList<>();
+        public List<String> parents = new ArrayList<>();
     }
 
     public static class ThreadsLast {
-        String _id;
-        long date;
+        public String _id;
+        public long date;
         @Embedded(prefix = "user_")
-        UsersData user = new UsersData();
+        public UsersData user = new UsersData();
 
     }
 

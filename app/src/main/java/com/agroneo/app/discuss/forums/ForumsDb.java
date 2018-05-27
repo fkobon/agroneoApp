@@ -57,6 +57,9 @@ public class ForumsDb {
 
         @Delete
         void delete(Forums forum);
+
+        @Query("SELECT * FROM forums WHERE _id == :parent UNION ALL SELECT * FROM forums WHERE childrens == :parent")
+        List<Forums> arbo(String parent);
     }
 
 
@@ -65,11 +68,11 @@ public class ForumsDb {
 
         @PrimaryKey
         @NonNull
-        String _id;
-        String title;
-        String url;
+        public String _id;
+        public String title;
+        public String url;
         @TypeConverters(ListTypeConverter.class)
-        List<String> childrens = new ArrayList<>();
+        public List<String> childrens = new ArrayList<>();
 
     }
 
