@@ -71,8 +71,12 @@ public class ForumsFragment extends Fragment {
         }
 
         public void updateChildrens() {
-            List<ForumsDb.Forums> arbo = AppDatabase.getAppDatabase(getContext()).forumsDao().arbo(_id);
-            pager.childrens(arbo);
+            if (_id != null) {
+                ForumsDb.ForumsDao db = AppDatabase.getAppDatabase(getContext()).forumsDao();
+                ForumsDb.Forums parent = db.load(_id);
+                List<ForumsDb.Forums> childrens = db.childrens(parent.childrens);
+                pager.childrens(childrens);
+            }
         }
 
         @Override
@@ -134,7 +138,7 @@ public class ForumsFragment extends Fragment {
             if (url == null || url.equals("/forum")) {
                 setData(AppDatabase.getAppDatabase(getContext()).threadsDao().load());
             } else {
-                setData(AppDatabase.getAppDatabase(getContext()).threadsDao().load("%@" + url + "@%"));
+                setData(AppDatabase.getAppDatabase(getContext()).threadsDao().load(url));
             }
         }
     }

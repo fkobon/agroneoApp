@@ -10,7 +10,6 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.agroneo.app.utils.Json;
@@ -46,11 +45,9 @@ public class ForumsDb {
     @Dao
     public interface ForumsDao {
 
-        @Query("SELECT * FROM forums")
-        Cursor load();
 
-        @Query("SELECT * FROM forums WHERE _id LIKE :id ORDER BY title ASC")
-        List<Forums> load(String id);
+        @Query("SELECT * FROM forums WHERE _id == :id")
+        Forums load(String id);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         void insert(Forums... forums);
@@ -58,8 +55,10 @@ public class ForumsDb {
         @Delete
         void delete(Forums forum);
 
-        @Query("SELECT * FROM forums WHERE _id == :parent UNION ALL SELECT * FROM forums WHERE childrens == :parent")
-        List<Forums> arbo(String parent);
+        @Query("SELECT * FROM forums WHERE _id IN(:parent)")
+        List<Forums> childrens(List<String> parent);
+
+
     }
 
 

@@ -65,7 +65,7 @@ public class ThreadsDb {
         @Query("SELECT * FROM threads ORDER BY last_date DESC")
         List<Threads> load();
 
-        @Query("SELECT * FROM threads WHERE parents LIKE :parent ORDER BY last_date DESC")
+        @Query("SELECT * FROM threads WHERE parents LIKE '%@' || :parent || '@%' ORDER BY last_date DESC")
         List<Threads> load(String parent);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)

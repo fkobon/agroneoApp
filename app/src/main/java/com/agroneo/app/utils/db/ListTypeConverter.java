@@ -4,6 +4,7 @@ import android.arch.persistence.room.TypeConverter;
 
 import com.agroneo.app.utils.Fx;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class ListTypeConverter {
     public List<String> toList(String str) {
         if (str == null) {
             return null;
+        }
+        if (str.length()<3) {
+            return Arrays.asList();
         }
         return Arrays.asList(str.substring(1, str.length() - 2).split("@"));
     }
